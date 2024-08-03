@@ -1,6 +1,6 @@
 # Univote Student Voting System
 
-Welcome to Univote, a comprehensive student management system designed to streamline administrative tasks and enhance the learning experience. This guide will help you set up both the frontend and backend components of the project.
+Welcome to Univote, a comprehensive student voting system designed to streamline administrative tasks and enhance the voting experience. This guide will help you set up both the frontend and backend components of the project.
 
 ## Table of Contents
 
@@ -19,7 +19,7 @@ Univote is built with a modern tech stack:
 - **Frontend:** React with Vite
 - **Backend:** Laravel
 
-This project allows administrators and students to manage and track academic information effectively.
+This project enhancing student voting system in university student elections.
 
 ## Prerequisites
 
