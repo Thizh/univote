@@ -114,9 +114,9 @@ Ensure you have the following installed on your machine:
   To run the frontend in development mode, use
 
    ```bash
-      npm run dev
-      # or
-      yarn dev
+   npm run dev
+   # or
+   yarn dev
    ```
 
 ### Backend
@@ -124,7 +124,7 @@ Ensure you have the following installed on your machine:
   To run the backend in development mode, use:
 
   ```bash
-     php artisan serve
+  php artisan serve
   ```
 
 Ensure that both the frontend and backend are running for full functionality of the application.  
