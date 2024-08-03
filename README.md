@@ -85,7 +85,7 @@ Ensure you have the following installed on your machine:
 
 3. **Start Database system**
    
-   Ensure that your database system (e.g., MySQL) is running. You can start MySQL via XAMPP or another compatible database system.
+   Ensure that your database system (MySQL) is running. You can start MySQL via XAMPP or another compatible software.
 
 4. **Generate Application Key**
 
