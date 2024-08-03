@@ -1,4 +1,4 @@
-# Univote Student Management System
+# Univote Student Voting System
 
 Welcome to Univote, a comprehensive student management system designed to streamline administrative tasks and enhance the learning experience. This guide will help you set up both the frontend and backend components of the project.
 
