@@ -113,11 +113,11 @@ Ensure you have the following installed on your machine:
 
   To run the frontend in development mode, use
 
-    ```bash
-      npm run dev
-      # or
-      yarn dev
-    ```
+ ```bash
+   npm run dev
+   # or
+   yarn dev
+ ```
 
 ### Backend
 
