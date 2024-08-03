@@ -29,7 +29,7 @@ Ensure you have the following installed on your machine:
 - **npm** or **yarn** (for managing frontend packages)
 - **PHP** (>= 8.2) (for the backend)
 - **Composer** (for managing backend dependencies)
-- **XAMPP** or another compatible database system
+- **XAMPP** or another compatible software
 
 ## Setup Instructions
 
