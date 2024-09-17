@@ -8,4 +8,4 @@ Route::get('/', function () {
 });
 
 
-Route::post('/student-details', [SignUpController::class, 'getStudentDetails']);
+// Route::get('/student-details', [SignUpController::class, 'getStudent']);
