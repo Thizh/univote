@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Voter;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use PHPHtmlParser\Dom;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -40,11 +42,30 @@ class SignUpController extends Controller
             if (empty($name) || empty($reg_no)) {
                 return [false, "Student not found"];
             }
+
+            $user = Voter::where('nic', $req->input('nic'))->first();
+
+            if (!$user) {
+                $voter = new Voter();
+                $voter->nic = $req->input('nic');
+                $voter->name = $name;
+                $voter->password = Hash::make($reg_no);
+            }
         
-            return [true, "name" => $name, "reg_no" => $reg_no];
+            return [true, "name" => $name];
         
         } catch (\Exception $e) {
             return [false, "An error occurred: " . $e->getMessage()];
         }        
+    }
+
+    public function check(Request $req) {
+        $user = Voter::where('nic', $req->input('nic'))->first();
+    
+        if (Hash::check($req->input('reg_no'), $user->password)) {
+            return [true, 'message' => 'Password matches', 'user' => $user->id];
+        } else {
+            return [false, 'message' => 'Password does not match'];
+        }
     }
 }
