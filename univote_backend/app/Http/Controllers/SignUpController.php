@@ -50,6 +50,7 @@ class SignUpController extends Controller
                 $voter->nic = $req->input('nic');
                 $voter->name = $name;
                 $voter->password = Hash::make($reg_no);
+                $voter->save();
             }
         
             return [true, "name" => $name];
