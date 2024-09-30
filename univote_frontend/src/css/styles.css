@@ -133,3 +133,18 @@ nav a:hover {
     height: 100px;
     width: 100%;
 }
+
+input::placeholder {
+    color: #888;
+    opacity: 1;
+  }
+
+.signin-h1 {
+    color: #333;
+    margin-bottom: 10%;
+}
+
+input {
+    color: #000;
+}
+
