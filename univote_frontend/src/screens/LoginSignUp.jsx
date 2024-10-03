@@ -7,7 +7,7 @@ function LoginSignUp() {
   const [nic, setNic] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const baseurl = 'http://127.0.0.1:8000';
+  const baseurl = 'http://13.53.206.93';
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [secBtnClicked, setSecBtnClicked] = useState(false);
@@ -82,7 +82,12 @@ function LoginSignUp() {
         <div className="overlay">
           <div className="overlay-panel overlay-right">
             <h1>Hello Voter!</h1>
-            <p>If you are a first timer login with your NIC and password for your OUSL Registration Number</p>
+            {name ? (
+              <p>If you are a first timer login password is your OUSL Registration Number</p>
+            ) : (
+              <p>Your vote is awaiting.</p>
+            )}
+            
           </div>
         </div>
       </div>
