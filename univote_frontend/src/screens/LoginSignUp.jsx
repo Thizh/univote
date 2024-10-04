@@ -7,7 +7,7 @@ function LoginSignUp() {
   const [nic, setNic] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const baseurl = 'https://ec2-13-60-34-28.eu-north-1.compute.amazonaws.com';
+  const baseurl = 'https://univoteadmin.sytes.net/';
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [secBtnClicked, setSecBtnClicked] = useState(false);
