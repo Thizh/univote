@@ -7,7 +7,7 @@ function LoginSignUp() {
   const [nic, setNic] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const baseurl = 'http://13.53.206.93';
+  const baseurl = 'https://13.53.206.93';
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [secBtnClicked, setSecBtnClicked] = useState(false);
