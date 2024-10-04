@@ -4,7 +4,6 @@ import '../css/login.css';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 function LoginSignUp() {
-  let csrfToken = $('meta[name="csrf-token"]').attr('content');
   const [nic, setNic] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -18,7 +17,6 @@ function LoginSignUp() {
     let res = await fetch(`${baseurl}/api/student-details`, {
       method: 'POST',
       headers: {
-        "X-CSRF-Token": csrfToken,
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
