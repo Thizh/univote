@@ -13,6 +13,12 @@ use Symfony\Component\DomCrawler\Crawler;
 class SignUpController extends Controller
 {
     public function getStudent(Request $req) {
+        $voter = Voter::where('nic', $req->input('nic'))->first();
+
+        if ($voter) {
+            return [true, "name" => $voter->name];
+        }
+
         $client = new Client();
 
         try {
