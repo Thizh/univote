@@ -18,7 +18,7 @@ function LoginSignUp() {
     let res = await fetch(`${baseurl}/api/student-details`, {
       method: 'POST',
       headers: {
-        "X-CSRF-Token": csrfToken
+        "X-CSRF-Token": csrfToken,
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
