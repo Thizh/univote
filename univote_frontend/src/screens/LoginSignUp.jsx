@@ -2,18 +2,21 @@ import React, { useState } from 'react';
 import Logo from '../assets/imgs/logo.png'
 import '../css/login.css';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { FourSquare } from 'react-loading-indicators';
 
 function LoginSignUp() {
   const [nic, setNic] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const baseurl = 'http://univoteadmin.sytes.net/';
+  const baseurl = 'https://univoteadmin.sytes.net';
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [secBtnClicked, setSecBtnClicked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchStu = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     let res = await fetch(`${baseurl}/api/student-details`, {
       method: 'POST',
       headers: {
@@ -28,12 +31,12 @@ function LoginSignUp() {
     } else {
       setError('You are not an OUSL student');
     }
-
-    console.log(data);
+    setIsLoading(false);
   }
 
   const checkPass = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     let check_pw = await fetch(`${baseurl}/api/checkuser`, {
       method: 'POST',
       headers: {
@@ -49,6 +52,7 @@ function LoginSignUp() {
     } else {
       setError('Your Password is wrong');
     }
+    setIsLoading(false);
   }
 
   return (
@@ -74,7 +78,7 @@ function LoginSignUp() {
             )}
             <p style={{color: 'red'}}>{error}</p>
             
-            <button style={{marginTop: '10%'}}>Sign In</button>
+            <button style={{marginTop: '10%'}}> {isLoading ? <FourSquare color="#ff3d00" size="small" text="" textColor="" /> : "Sign In" }</button>
         </form>
       </div>
       
