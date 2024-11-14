@@ -1,0 +1,39 @@
+/* Scan.css */
+.scan-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .vote-details {
+    margin-top: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  input {
+    width: 80%;
+    padding: 8px;
+    margin-top: 5px;
+  }
+  
+  button.vote-accept-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    width: 80%;
+  }
+  
+  button.vote-accept-button:hover {
+    background-color: #45a049;
+  }
+  
+  .confirmation-message {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #4CAF50;
+  }
+  
