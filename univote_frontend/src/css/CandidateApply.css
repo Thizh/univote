@@ -1,0 +1,51 @@
+.candidate-apply-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #6495ED;
+  }
+  
+  .candidate-apply-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  }
+  
+  .form label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: black;
+  }
+  
+  .form input {
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .apply-button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .apply-button:hover {
+    background-color: #45a049;
+  }
+  
+  .qr-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  

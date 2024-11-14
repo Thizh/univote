@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './screens/Home';
 import LoginSignUp from './screens/LoginSignUp';
+import CandidateApply from './screens/CandidateApply';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -24,7 +25,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={isLoggedIn ? <Home /> : <LoginSignUp />}
+          element={isLoggedIn ? <Home /> : <CandidateApply />}
         />
       </Routes>
     </Router>
