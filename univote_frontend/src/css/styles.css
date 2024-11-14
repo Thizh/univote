@@ -148,3 +148,28 @@ input {
     color: #000;
 }
 
+
+/* Modal Overlay */
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+}
+  
+/* Modal Content */
+.modal-content {
+	background: #fff;
+    color:#000;
+	padding: 20px;
+	width: 400px;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	text-align: center;
+}

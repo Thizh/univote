@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Logo from '../assets/imgs/logo.png'
 import '../css/login.css';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { FourSquare } from 'react-loading-indicators';
+import Cookies from 'js-cookie';
+
 
 function LoginSignUp() {
   const [nic, setNic] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const baseurl = 'https://univoteadmin.nexelaris.com';
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [secBtnClicked, setSecBtnClicked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const baseurl = import.meta.env.VITE_BASE_URL;
 
   const fetchStu = async (event) => {
     event.preventDefault();
@@ -47,8 +49,9 @@ function LoginSignUp() {
     });
     const pw_data = await check_pw.json();
     if (pw_data[0]) {
-      localStorage.setItem('isLoggedIn', 'true');
-      window.location.reload();
+      Cookies.set("isLoggedIn", "true", { expires: 7, path: "/" });
+      Cookies.set("user_id", JSON.stringify(pw_data.user), { expires: 7, path: "/" });
+      navigate('/');
     } else {
       setError('Your Password is wrong');
     }
@@ -60,7 +63,7 @@ function LoginSignUp() {
       <div className="form-container sign-in-container">
         <form onSubmit={name ? checkPass : fetchStu}>
           <img src={Logo} alt="A beautiful scenery" width="30" height="40" />
-          <h1 className="signin-h1">Sign in</h1>
+          <h1 className="signin-h1">Log in</h1>
             {name ? (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>

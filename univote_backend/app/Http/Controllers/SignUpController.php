@@ -16,7 +16,7 @@ class SignUpController extends Controller
         $voter = Voter::where('nic', $req->input('nic'))->first();
 
         if ($voter) {
-            return [true, "name" => $voter->name];
+            return [true, "name" => $voter->name, 'firstTime' => $voter->isFirstTime];
         }
 
         $client = new Client();
@@ -59,7 +59,7 @@ class SignUpController extends Controller
                 $voter->save();
             }
         
-            return [true, "name" => $name];
+            return [true, "name" => $name, 'firstTime' => $user->isFirstTime];
         
         } catch (\Exception $e) {
             return [false, "An error occurred: " . $e->getMessage()];
@@ -74,5 +74,26 @@ class SignUpController extends Controller
         } else {
             return [false, 'message' => 'Password does not match'];
         }
+    }
+
+    public function isFirstTime(Request $req) {
+        $user = Voter::where('id', $req->input('id'))->first();
+
+        return [true, 'firstTime' => $user->isFirstTime];
+    }
+
+    public function saveUserData(Request $req) {
+        $user = Voter::where('id', $req->input('id'))->first();
+
+        try {
+            $user->isFirstTime = false;
+            $user->faculty = $req->input('faculty');
+            $user->level = $req->input('level');
+            $user->save();
+        } catch (Exception $e) {
+            return ['error' => $e];
+        }
+
+        return [true, 'firstTime' => $user->isFirstTime];
     }
 }

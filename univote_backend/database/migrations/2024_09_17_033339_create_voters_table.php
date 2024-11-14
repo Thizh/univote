@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('nic');
             $table->string('name');
             $table->string('password');
+            $table->string('faculty')->nullable();
+            $table->string('level')->nullable();
+            $table->boolean('isFirstTime')->default(true);
+            $table->string('academics_ref')->nullable();
             $table->timestamps();
         });
     }

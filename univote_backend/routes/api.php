@@ -10,3 +10,5 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/student-details', [SignUpController::class, 'getStudent']);
 Route::post('/checkuser', [SignUpController::class, 'check']);
+Route::post('/first-time', [SignUpController::class, 'isFirstTime']);
+Route::post('/setdata', [SignUpController::class, 'saveUserData']);
