@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StudentId;
+use App\Models\tempVoter;
 use App\Models\Voter;
 use Exception;
 use GuzzleHttp\Client;
@@ -16,7 +18,7 @@ class SignUpController extends Controller
         $voter = Voter::where('nic', $req->input('nic'))->first();
 
         if ($voter) {
-            return [true, "name" => $voter->name, 'firstTime' => $voter->isFirstTime];
+            return [true, "name" => $voter->name];
         }
 
         $client = new Client();
@@ -49,20 +51,36 @@ class SignUpController extends Controller
                 return [false, "Student not found"];
             }
 
-            $user = Voter::where('nic', $req->input('nic'))->first();
+            $getSid = $this->getSid($reg_no);
 
-            if (!$user) {
-                $voter = new Voter();
-                $voter->nic = $req->input('nic');
-                $voter->name = $name;
-                $voter->password = Hash::make($reg_no);
-                $voter->save();
+            if (!$getSid[0]) {
+                return [true, "name" => $name, 'email' => false];
             }
+
+            $voterEmail = $getSid . '@ousl.lk';
+
+            //email encryption
+            list($sid, $domain) = explode('@', $voterEmail);
+            if (strlen($sid) > 4) {
+                $maskedSid = substr_replace($sid, '****', 2, -2);
+            } else {
+                $maskedSid = $sid;
+            }
+            $maskedEmail = $maskedSid . '@' . $domain;
+
+            $voter = new tempVoter();
+            $voter->nic = $req->input('nic');
+            $voter->name = $name;
+            $voter->password = Hash::make($reg_no);
+            $voter->email = $voterEmail;
+            $otp = mt_rand(100000, 999999);
+            $voter->otp = $otp;
+            $voter->save();
         
-            return [true, "name" => $name, 'firstTime' => $user->isFirstTime];
+            return [true, "name" => $name, 'email' => $maskedEmail];
         
         } catch (\Exception $e) {
-            return [false, "An error occurred: " . $e->getMessage()];
+            return [false, "An error occurred: " . $e->getMessage() . " Details: " . $e->getTrace()];
         }        
     }
 
@@ -95,5 +113,33 @@ class SignUpController extends Controller
         }
 
         return [true, 'firstTime' => $user->isFirstTime];
+    }
+
+    public function getSid($regNo) {
+
+        $student = StudentId::where('reg_no', $regNo)->first();
+
+        if ($student) {
+            $stuId = $student->stu_id;
+            return $stuId;
+        } else {
+            $mapping = [
+                "21" => "s92",
+                "43" => "07",
+                "42" => "06",
+                "64" => "08",
+            ];
+
+            $prefix = substr($regNo, 1, 2);
+            $middle = substr($regNo, 3, 2);
+            $suffix = substr($regNo, -4);
+    
+            if (isset($mapping[$prefix]) && isset($mapping[$middle])) {
+                $sid = $mapping[$prefix] . $mapping[$middle] . $suffix;
+                return $sid;
+            }
+        }
+
+        return [false];
     }
 }

@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('voters', function (Blueprint $table) {
+        Schema::create('temp_voters', function (Blueprint $table) {
             $table->id();
             $table->string('nic');
             $table->string('name');
             $table->string('password');
             $table->string('email');
-            $table->string('faculty')->nullable();
-            $table->string('level')->nullable();
-            $table->boolean('isFirstTime')->default(true);
-            $table->string('academics_ref')->nullable();
+            $table->string('otp');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('voters');
+        Schema::dropIfExists('temp_voters');
     }
 };
