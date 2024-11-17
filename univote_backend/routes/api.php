@@ -3,6 +3,15 @@
 use App\Http\Controllers\SignUpController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DecryptionController;
+
+
+Route::get('/test-connection', function () {
+    return response()->json(['message' => 'Backend is connected!']);
+});
+
+Route::get('/decrypt-vote', [DecryptionController::class, 'decryptVote']);
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();

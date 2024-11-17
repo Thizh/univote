@@ -5,26 +5,30 @@ body {
   font-family: Arial, sans-serif;
 }
 
-
-.vote-container {
-  padding: 20px;
-  background: transparent; /* Ensure container is transparent */
+.main_container {
+  height: 100vh;
+  width: 100vw;
+  transition: background-color 0.3s; /* Smooth transition for background */
 }
 
-.voting-section {
-  text-align: center;
+.main_container.background-blur {
+  background: rgba(0, 0, 0, 0.5); /* Darkened background for blur effect */
 }
 
 .heading {
   font-size: 1.5em;
   margin-bottom: 20px;
 }
+
 .candidates {
-  display: grid;
+  width: 30vw;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  margin-left: 0;
-
+  display: grid;
+  margin-left: auto;
+  margin-right: auto;
+  background: transparent;
+  text-align: center;
 }
 
 .election-card {
@@ -54,13 +58,11 @@ body {
 
 .buttons-container {
   display: flex;
-  flex-direction: column; /* Stack items vertically */
+  flex-direction: column;
   align-items: center;
   gap: 20px;
   margin-top: 30px;
 }
-
-
 
 .vote-button {
   padding: 10px 20px;
@@ -78,33 +80,34 @@ body {
   background-color: #45A049;
 }
 
-
-.buttons-container {
-  display: flex;
-  justify-content: flex-end;
-  gap: 80px;
-  margin-top: 30px;
-}
-
 .qr-container {
   position: fixed;
-  bottom: 20px;
+  bottom: 250px;  /* Adjust the initial position */
   right: 20px;
-  background-color: white; /* Optional: To make it stand out */
+  background-color: white;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;  /* Smooth transition */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .qr-container svg {
-  cursor: pointer; /* Optional: To show it’s clickable */
+  cursor: pointer;
 }
 
+.qr-container.enlarged {
+  transform: scale(3);  /* Enlarge QR code */
+  z-index: 10; /* Bring QR code above other elements */
+  top: 50%;  /* Center vertically */
+  left: 50%;  /* Center horizontally */
+  transform: translate(-50%, -50%) scale(3);  /* Center it and apply scale */
+}
 
-
-
-
-
-
-
-
+.qr-container svg {
+  width: 100%;  /* Make QR code fill its container */
+  height: 100%;
+  cursor: pointer;
+}

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Home from './screens/Home';
 import LoginSignUp from './screens/LoginSignUp';
 import Vote from './screens/Vote';
-
+import AcceptVote from './screens/AcceptVote';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,7 +30,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={isLoggedIn ? <Vote /> : <Vote />}
+          element={isLoggedIn ? <AcceptVote /> : <AcceptVote />}
         />
       </Routes>
 

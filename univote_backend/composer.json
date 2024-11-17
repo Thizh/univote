@@ -11,6 +11,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "paquettg/php-html-parser": "^2.2",
+        "phpseclib/phpseclib": "^3.0",
         "symfony/css-selector": "^7.1",
         "symfony/dom-crawler": "^7.1"
     },
