@@ -59,7 +59,7 @@ class SignUpController extends Controller
 
             $voterEmail = $getSid . '@ousl.lk';
 
-            //email encryption
+            //email mask
             list($sid, $domain) = explode('@', $voterEmail);
             if (strlen($sid) > 4) {
                 $maskedSid = substr_replace($sid, '****', 2, -2);
@@ -85,7 +85,14 @@ class SignUpController extends Controller
     }
 
     public function check(Request $req) {
-        $user = Voter::where('nic', $req->input('nic'))->first();
+
+        $user = null;
+
+        if ($req->input('email') == null) {
+            $user = Voter::where('nic', $req->input('nic'))->first();
+        } else {
+            $user = tempVoter::where('nic', $req->input('nic'))->first();
+        }
     
         if (Hash::check($req->input('reg_no'), $user->password)) {
             return [true, 'message' => 'Password matches', 'user' => $user->id];

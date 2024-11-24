@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('faculty')->nullable();
             $table->string('level')->nullable();
             $table->boolean('isFirstTime')->default(true);
+            $table->string('otp');
             $table->string('academics_ref')->nullable();
             $table->timestamps();
         });

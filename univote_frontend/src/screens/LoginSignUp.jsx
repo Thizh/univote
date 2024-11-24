@@ -9,12 +9,14 @@ import Cookies from 'js-cookie';
 function LoginSignUp() {
   const [nic, setNic] = useState('');
   const [name, setName] = useState('');
+  const [email, setEmail] = useState(null);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [secBtnClicked, setSecBtnClicked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const baseurl = import.meta.env.VITE_BASE_URL;
+  const [pwSubmitted, setPwSubmitted] = useState(false);
 
   const fetchStu = async (event) => {
     event.preventDefault();
@@ -30,6 +32,7 @@ function LoginSignUp() {
     const data = await res.json();
     if (data[0]) {
       setName(data.name);
+      setEmail(data.email);
     } else {
       setError('You are not an OUSL student');
     }
@@ -45,13 +48,14 @@ function LoginSignUp() {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      body: JSON.stringify({ nic, reg_no: password }),
+      body: JSON.stringify({ nic, reg_no: password, email }),
     });
     const pw_data = await check_pw.json();
     if (pw_data[0]) {
-      Cookies.set("isLoggedIn", "true", { expires: 7, path: "/" });
-      Cookies.set("user_id", JSON.stringify(pw_data.user), { expires: 7, path: "/" });
-      navigate('/');
+      setPwSubmitted(true);
+      // Cookies.set("isLoggedIn", "true", { expires: 7, path: "/" });
+      // Cookies.set("user_id", JSON.stringify(pw_data.user), { expires: 7, path: "/" });
+      // navigate('/');
     } else {
       setError('Your Password is wrong');
     }
@@ -60,6 +64,8 @@ function LoginSignUp() {
 
   return (
     <div className="container" id="container">
+      {!pwSubmitted ? (
+        <>
       <div className="form-container sign-in-container">
         <form onSubmit={name ? checkPass : fetchStu}>
           <img src={Logo} alt="A beautiful scenery" width="30" height="40" />
@@ -83,6 +89,7 @@ function LoginSignUp() {
             
             <button style={{marginTop: '10%'}}> {isLoading ? <FourSquare color="#ff3d00" size="small" text="" textColor="" /> : "Sign In" }</button>
         </form>
+
       </div>
       
       <div className="overlay-container">
@@ -98,6 +105,13 @@ function LoginSignUp() {
           </div>
         </div>
       </div>
+      </>
+      ) : (
+        <div>
+        <div style={{color: '#000'}}>Enter Otp</div>
+        <div style={{color: '#000'}}>we sent an OTP to your OUSL mail <span style={{fontWeight: '700'}}>{email}</span> Please enter the OTP below. </div>
+        </div>
+      )};
     </div>
   );
 }
