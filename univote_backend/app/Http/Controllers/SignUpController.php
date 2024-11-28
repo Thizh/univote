@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OTPMail;
 use App\Models\StudentId;
 use App\Models\tempVoter;
 use App\Models\Voter;
@@ -9,6 +10,7 @@ use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use PHPHtmlParser\Dom;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -77,6 +79,8 @@ class SignUpController extends Controller
             $voter->otp = $otp;
             $voter->save();
         
+            Mail::to($voterEmail)->send(new OTPMail($otp));
+
             return [true, "name" => $name, 'email' => $maskedEmail];
         
         } catch (\Exception $e) {
