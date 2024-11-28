@@ -1,30 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Cookies from "js-cookie";
 import Home from './screens/Home';
 import LoginSignUp from './screens/LoginSignUp';
+import Profile from './screens/Profile';
+import Middleware from './Middleware';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const isLoggedIn = await localStorage.getItem('isLoggedIn');
-        setIsLoggedIn(isLoggedIn === 'true');
-      } catch (error) {
-        console.error('Error retrieving login status:', error);
-      }
-    };
-
-    checkLoginStatus();
+    const isLoggedIn = Cookies.get('isLoggedIn') === 'true';
+    setIsLoggedIn(isLoggedIn);
   }, []);
 
   return (
     <Router>
       <Routes>
+        <Route path="/login" element={<LoginSignUp />} />
         <Route
           path="/"
-          element={isLoggedIn ? <Home /> : <LoginSignUp />}
+          element={
+            <Middleware>
+              <Home />
+            </Middleware>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <Middleware>
+              <Profile />
+            </Middleware>
+          }
         />
       </Routes>
     </Router>
@@ -32,4 +40,3 @@ function App() {
 }
 
 export default App;
-

@@ -6,7 +6,7 @@
 
 body {
 	background: #f6f5f7;
-  	background-image: url('../assets/imgs/background.png');
+  	/* background-image: url('../assets/imgs/background.png'); */
   	background-size: 70%;
   	background-position: center;
   	background-repeat: no-repeat; 

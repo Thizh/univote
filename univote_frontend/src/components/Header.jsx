@@ -11,6 +11,9 @@ const Header = () => {
           <a href="#">Voting</a>
           <a href="#">Statistics</a>
           <a href="#">About us</a>
+          <a href="/profile">
+            <img src="user-icon-placeholder.png" alt="User Icon" className="user-icon" />
+          </a>
         </nav>
       </div>
     </header>
