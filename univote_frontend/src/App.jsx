@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Cookies from "js-cookie";
 import Home from './screens/Home';
+import Statistics from './screens/statistics.jsx';
 import LoginSignUp from './screens/LoginSignUp';
 import Profile from './screens/Profile';
 import Middleware from './Middleware';
@@ -34,6 +35,10 @@ function App() {
             </Middleware>
           }
         />
+        <Route
+          path="/statistics" element={<Statistics/>}
+        />
+       
       </Routes>
     </Router>
   );
