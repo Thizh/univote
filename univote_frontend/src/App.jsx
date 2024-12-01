@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './screens/Home';
+import Statistics from './screens/statistics.jsx';
 import LoginSignUp from './screens/LoginSignUp';
 
 function App() {
@@ -26,6 +27,10 @@ function App() {
           path="/"
           element={isLoggedIn ? <Home /> : <LoginSignUp />}
         />
+        <Route
+          path="/statistics" element={<Statistics/>}
+        />
+       
       </Routes>
     </Router>
   );
