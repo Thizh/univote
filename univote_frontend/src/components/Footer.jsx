@@ -23,10 +23,6 @@ const Footer = () => {
           <a href="#">Statistics</a>
           <a href="#">Log out</a>
         </div>
-        <div className="map">
-          <h3>Map</h3>
-          <div className="map-placeholder"></div>
-        </div>
       </div>
     </footer>
   );

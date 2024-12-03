@@ -55,7 +55,7 @@ class SignUpController extends Controller
 
             $getSid = $this->getSid($reg_no);
 
-            if (!$getSid[0]) {
+            if (!$getSid) {
                 return [true, "name" => $name, 'email' => false];
             }
 
@@ -79,7 +79,11 @@ class SignUpController extends Controller
             $voter->otp = $otp;
             $voter->save();
         
-            Mail::to($voterEmail)->send(new OTPMail($otp));
+            // Mail::to($voterEmail)->send(new OTPMail($otp));
+            Mail::to($voterEmail)->send(new OTPMail([
+                'title' => 'Your OTP for Univote Login',
+                'body' => $otp,
+            ]));
 
             return [true, "name" => $name, 'email' => $maskedEmail];
         
@@ -151,6 +155,26 @@ class SignUpController extends Controller
             }
         }
 
-        return [false];
+        return false;
+    }
+
+    public function checkOTP(Request $req)
+    {
+        $nic = $req->input('nic');
+        $otp = $req->input('otp');
+        $voter = tempVoter::where('nic', $nic)->first();
+
+        if ($voter->otp == $otp) {
+            $regVoter = new Voter();
+            $regVoter->nic = $req->input('nic');
+            $regVoter->name = $voter->name;
+            $regVoter->password = $voter->password;
+            $regVoter->email = $voter->email;
+            $regVoter->save();
+            return [true, 'voter' => $regVoter->id];
+        } else {
+            return [false];
+        }
+
     }
 }

@@ -83,8 +83,11 @@ nav a:hover {
 .election-card {
     background-color: #FF3D004F;
     padding: 20px;
+    display: flex;
     border-radius: 10px;
     text-align: center;
+    align-items: center;
+    justify-content: center;
     height: 200px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 150px;

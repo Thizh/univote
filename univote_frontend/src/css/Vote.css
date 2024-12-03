@@ -84,14 +84,16 @@ body {
   position: fixed;
   bottom: 250px;  /* Adjust the initial position */
   right: 20px;
-  background-color: white;
+  background-image:linear-gradient(to bottom right, rgba(255,255,255,0.2), rgba(255,255,255,0));
+  backdrop-filter: blur(10px);
+  box-shadow: 10px 10px 10px rgba(30,30,30,0.5);
   padding: 10px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease-in-out;  /* Smooth transition */
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
 }
 
 .qr-container svg {
@@ -107,7 +109,5 @@ body {
 }
 
 .qr-container svg {
-  width: 100%;  /* Make QR code fill its container */
-  height: 100%;
   cursor: pointer;
 }

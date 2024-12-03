@@ -3,8 +3,11 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../css/styles.css';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
+
+  const navigation = useNavigate();
 
   const [userId, setUserId] = useState(Cookies.get('user_id'));
   const [firstTime, isFirstTime] = useState(false);
@@ -38,16 +41,10 @@ function Home() {
         <h2>Available Elections</h2>
         <div className="election-cards">
             <div className="election-card">
-            <div className="icon-placeholder"></div>
-            <p style={{color: '#000'}}>Student Union</p>
+            <p style={{color: '#000'}}>News Feed</p>
             </div>
-            <div className="election-card" style={{backgroundColor: '#B8DFAE'}}>
-            <div className="icon-placeholder"></div>
-            <p style={{color: '#000'}}>Sports Council</p>
-            </div>
-            <div className="election-card">
-            <div className="icon-placeholder"></div>
-            <p style={{color: '#000'}}>Student Union</p>
+            <div className="election-card" style={{backgroundColor: '#B8DFAE'}} onClick={() => navigation('/vote')}>
+            <p style={{color: '#000'}}>Vote</p>
             </div>
         </div>
         </div>

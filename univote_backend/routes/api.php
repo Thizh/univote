@@ -10,7 +10,7 @@ Route::get('/test-connection', function () {
     return response()->json(['message' => 'Backend is connected!']);
 });
 
-Route::get('/decrypt-vote', [DecryptionController::class, 'decryptVote']);
+// Route::get('/decrypt-vote', [DecryptionController::class, 'decryptVote']);
 
 
 Route::get('/user', function (Request $request) {
@@ -21,3 +21,4 @@ Route::post('/student-details', [SignUpController::class, 'getStudent']);
 Route::post('/checkuser', [SignUpController::class, 'check']);
 Route::post('/first-time', [SignUpController::class, 'isFirstTime']);
 Route::post('/setdata', [SignUpController::class, 'saveUserData']);
+Route::post('/checkotp', [SignUpController::class, 'checkOTP']);

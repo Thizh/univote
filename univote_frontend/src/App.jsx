@@ -5,9 +5,10 @@ import Home from './screens/Home';
 import Statistics from './screens/statistics.jsx';
 import LoginSignUp from './screens/LoginSignUp';
 import Profile from './screens/Profile';
-import CandidateApply from 'screens/CandidateApply';
-import AcceptVote from 'screens/AcceptVote';
+import CandidateApply from './screens/CandidateApply';
+import AcceptVote from './screens/AcceptVote';
 import Middleware from './Middleware';
+import Vote from './screens/Vote.jsx';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,6 +27,14 @@ function App() {
           element={
             <Middleware>
               <Home />
+            </Middleware>
+          }
+        />
+        <Route
+          path="/vote"
+          element={
+            <Middleware>
+              <Vote />
             </Middleware>
           }
         />
