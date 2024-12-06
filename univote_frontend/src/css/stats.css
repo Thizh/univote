@@ -7,6 +7,11 @@ html, body {
     box-sizing: border-box;
 }
 
+.maindiv {
+    height: 100vh;
+    width: 100vw;
+}
+
 .Home {
     text-align: center;
     display: flex;
@@ -152,7 +157,7 @@ input {
 .statistics-container {
     display: flex;
     justify-content: space-between;
-    margin: 20px;
+    margin: 10% 19% ;
     padding: 20px;
     gap: 20px;
   }
@@ -187,6 +192,15 @@ input {
   
   .vote-number {
     font-size: 1rem;
+    font-weight: 700;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    border: 3px solid #ff4500;
+    padding: 5%;
+    border-radius: 40px;
   }
   
   .leading-section {
@@ -203,7 +217,7 @@ input {
   .leading-icon {
     font-size: 3rem;
     color: #ff4500;
-    border: 3px solid #ff4500;
+    /* border: 3px solid #ff4500; */
     border-radius: 50%;
     padding: 20px;
     display: inline-block;

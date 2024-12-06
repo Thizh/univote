@@ -145,7 +145,8 @@ input::placeholder {
 
 .signin-h1 {
     color: #333;
-    margin-bottom: 10%;
+    font-size: 25px;
+    margin: 10%;
 }
 
 input {

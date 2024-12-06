@@ -63,7 +63,12 @@ function App() {
           }
         />
         <Route
-          path="/statistics" element={<Statistics/>}
+          path="/statistics" 
+          element={
+            <Middleware>
+              <Statistics/>
+            </Middleware>
+          }
         />
        
       </Routes>

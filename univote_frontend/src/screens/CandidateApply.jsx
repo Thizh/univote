@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
 import '../css/CandidateApply.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Cookies from 'js-cookie';
 
 function CandidateApply() {
   const [name, setName] = useState('');
@@ -11,10 +12,31 @@ function CandidateApply() {
   const [faculty, setFaculty] = useState('');
   const [level, setLevel] = useState('');
   const [showQRCode, setShowQRCode] = useState(false);
+  const user_id = Cookies.get('user_id');
+  const [isLoading, setIsLoading] = useState(false);
+  const baseurl = import.meta.env.VITE_BASE_URL;
 
-  const handleApply = () => {
+  const handleApply = async (event) => {
     if (contactNo) {
-      setShowQRCode(true); // Show QR code after successful form submission
+      event.preventDefault();
+      setIsLoading(true);
+      let res = await fetch(`${baseurl}/api/assign-qr`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({ contact : contactNo, user : user_id }),
+      });
+      const data = await res.json();
+      if (data[0]) {
+        setShowQRCode(true);
+      } else {
+        setError('error occured');
+      }
+      setIsLoading(false);
+
+       // Show QR code after successful form submission
     } else {
       alert('All fields are required.');
       setShowQRCode(false);
@@ -50,7 +72,7 @@ function CandidateApply() {
 
         <div className="qr-container" onClick={() => setShowQRCode(false)}>
           <QRCode
-            value={`Name: ${name}, Reg. No: ${registrationNo}, Contact: ${contactNo}, Faculty: ${faculty}, Level: ${level}`}
+            value={`${user_id}`}
             size={300}
           />
           <div style={{backgroundColor: 'green', padding: 5, width:300,  alignItems: 'center', justifyContent: 'center', display: 'flex', color: '#fff', marginTop: '5%', borderRadius: 55, cursor: 'pointer'}}>

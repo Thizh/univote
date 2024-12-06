@@ -9,7 +9,7 @@ const Header = () => {
         <nav>
           <a href="/">Home</a>
           <a href="/candidateApply">Apply Candidate</a>
-          <a href="#">Statistics</a>
+          <a href="/statistics">Statistics</a>
           <a href="#">About us</a>
           <a href="/profile">
           <img src={DP} alt="User Icon" className="user-icon" style={{padding: '5px'}} />
