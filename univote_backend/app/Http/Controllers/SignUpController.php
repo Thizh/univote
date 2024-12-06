@@ -19,8 +19,29 @@ class SignUpController extends Controller
     public function getStudent(Request $req) {
         $voter = Voter::where('nic', $req->input('nic'))->first();
 
+        // return [$voter->emailVerified];
+
         if ($voter) {
-            return [true, "name" => $voter->name];
+            if ($voter->emailVerified) {
+                return [true, "name" => $voter->name, 'email' => null];
+            } else {
+                list($sid, $domain) = explode('@', $voter->email);
+                if (strlen($sid) > 4) {
+                    $maskedSid = substr_replace($sid, '****', 2, -2);
+                } else {
+                    $maskedSid = $sid;
+                }
+                $maskedEmail = $maskedSid . '@' . $domain;
+                $otp = mt_rand(100000, 999999);
+                $voter->update(['otp' => $otp]);
+
+                Mail::to($voter->email)->send(new OTPMail([
+                    'title' => 'Your OTP for Univote Login',
+                    'body' => $otp,
+                ]));
+
+                return [true, "name" => $voter->name, 'email' => $maskedEmail, 'otp' => $voter->otp];
+            }
         }
 
         $client = new Client();
@@ -53,35 +74,41 @@ class SignUpController extends Controller
                 return [false, "Student not found"];
             }
 
-            $getSid = $this->getSid($reg_no);
+                $getSid = $this->getSid($reg_no);
 
-            if (!$getSid[0]) {
-                return [true, "name" => $name, 'email' => false];
-            }
+                if (!$getSid) {
+                    return [true, "name" => $name, 'email' => false];
+                }
+    
+                $voterEmail = $getSid . '@ousl.lk';
+    
+                //email mask
+                list($sid, $domain) = explode('@', $voterEmail);
+                if (strlen($sid) > 4) {
+                    $maskedSid = substr_replace($sid, '****', 2, -2);
+                } else {
+                    $maskedSid = $sid;
+                }
+                $maskedEmail = $maskedSid . '@' . $domain;
 
-            $voterEmail = $getSid . '@ousl.lk';
+                $otp = mt_rand(100000, 999999);
 
-            //email mask
-            list($sid, $domain) = explode('@', $voterEmail);
-            if (strlen($sid) > 4) {
-                $maskedSid = substr_replace($sid, '****', 2, -2);
-            } else {
-                $maskedSid = $sid;
-            }
-            $maskedEmail = $maskedSid . '@' . $domain;
-
-            $voter = new tempVoter();
-            $voter->nic = $req->input('nic');
-            $voter->name = $name;
-            $voter->password = Hash::make($reg_no);
-            $voter->email = $voterEmail;
-            $otp = mt_rand(100000, 999999);
-            $voter->otp = $otp;
-            $voter->save();
+                $user = new Voter();
+                $user->nic = $req->input('nic');
+                $user->name = $name;
+                $user->password = Hash::make($reg_no);
+                $user->email = $voterEmail;
+                $user->otp = $otp;
+                $user->save();
         
-            Mail::to($voterEmail)->send(new OTPMail($otp));
+                // Mail::to($voterEmail)->send(new OTPMail($otp));
+                Mail::to($voterEmail)->send(new OTPMail([
+                    'title' => 'Your OTP for Univote Login',
+                    'body' => $otp,
+                ]));
 
-            return [true, "name" => $name, 'email' => $maskedEmail];
+                return [true, "name" => $name, 'email' => $maskedEmail];
+            
         
         } catch (\Exception $e) {
             return [false, "An error occurred: " . $e->getMessage() . " Details: " . $e->getTrace()];
@@ -90,13 +117,7 @@ class SignUpController extends Controller
 
     public function check(Request $req) {
 
-        $user = null;
-
-        if ($req->input('email') == null) {
-            $user = Voter::where('nic', $req->input('nic'))->first();
-        } else {
-            $user = tempVoter::where('nic', $req->input('nic'))->first();
-        }
+        $user = Voter::where('nic', $req->input('nic'))->first();
     
         if (Hash::check($req->input('reg_no'), $user->password)) {
             return [true, 'message' => 'Password matches', 'user' => $user->id];
@@ -151,6 +172,21 @@ class SignUpController extends Controller
             }
         }
 
-        return [false];
+        return false;
+    }
+
+    public function checkOTP(Request $req)
+    {
+        $nic = $req->input('nic');
+        $otp = $req->input('otp');
+        $voter = Voter::where('nic', $nic)->first();
+
+        if ($voter->otp == $otp) {
+            $voter->update(['emailVerified' => true]);
+            return [true, 'voter' => $voter->id];
+        } else {
+            return [false];
+        }
+
     }
 }

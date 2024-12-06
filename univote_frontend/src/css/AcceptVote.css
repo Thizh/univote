@@ -1,0 +1,56 @@
+/* Scan.css */
+.scan-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .vote-details {
+    margin-top: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  input {
+    width: 80%;
+    padding: 8px;
+    margin-top: 5px;
+  }
+  
+  button.vote-accept-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    width: 80%;
+  }
+  
+  button.vote-accept-button:hover {
+    background-color: #45a049;
+  }
+  
+  .confirmation-message {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #4CAF50;
+  }
+
+  /* Add this to your CSS or inline styles */
+.decryptedDataContainer {
+  margin-top: 20px;
+  padding: 20px;
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.decryptedDataContainer h3 {
+  color: #333;
+}
+
+.decryptedDataContainer div {
+  margin-bottom: 10px;
+  font-size: 16px;
+}

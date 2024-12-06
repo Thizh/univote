@@ -1,20 +1,21 @@
 import React from 'react';
 import '../css/styles.css';
+import DP from "../assets/imgs/dp.png";
 
 const Header = () => {
   return (
     <header className="header">
       <div className="header-container">
-        <img src="user-icon-placeholder.png" alt="User Icon" className="user-icon" />
         <nav>
-          <a href="#">Home</a>
-          <a href="#">Voting</a>
-          <a href="#">Statistics</a>
+          <a href="/">Home</a>
+          <a href="/candidateApply">Apply Candidate</a>
+          <a href="/statistics">Statistics</a>
           <a href="#">About us</a>
           <a href="/profile">
-            <img src="user-icon-placeholder.png" alt="User Icon" className="user-icon" />
+          <img src={DP} alt="User Icon" className="user-icon" style={{padding: '5px'}} />
           </a>
         </nav>
+        
       </div>
     </header>
   );

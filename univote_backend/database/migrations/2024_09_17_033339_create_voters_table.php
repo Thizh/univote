@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('faculty')->nullable();
             $table->string('level')->nullable();
+            $table->boolean('emailVerified')->default(false);
             $table->boolean('isFirstTime')->default(true);
             $table->string('otp');
             $table->string('academics_ref')->nullable();

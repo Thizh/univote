@@ -1,0 +1,59 @@
+.candidate-apply-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .candidate-apply-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: black;
+  }
+  
+  .form input {
+    padding: 8px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #000;
+  }
+  
+  .apply-button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .apply-button:hover {
+    background-color: #45a049;
+  }
+  
+  .qr-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the container itself */
+    height: 100vh;
+    width: 200vh;
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    flex-direction: column;
+    background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+    backdrop-filter: blur(10px);
+    box-shadow: 10px 10px 10px rgba(30, 30, 30, 0.5);
+}
+
+  
