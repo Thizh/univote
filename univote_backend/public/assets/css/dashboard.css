@@ -1,0 +1,45 @@
+body {
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+#wrapper {
+    display: flex;
+    width: 100%;
+}
+
+#sidebar-wrapper {
+    min-width: 250px;
+    max-width: 250px;
+    height: 100%;
+    background: #f8f9fa;
+}
+
+#page-content-wrapper {
+    flex: 1;
+    padding: 20px;
+}
+
+.sidebar-heading {
+    background: #e9ecef;
+    font-size: 20px;
+}
+
+.list-group-item {
+    border: none;
+    padding: 15px 20px;
+}
+
+.list-group-item:hover {
+    background: #e9ecef;
+}
+
+.toggled #sidebar-wrapper {
+    margin-left: -250px;
+}
+
+.logo {
+    height: 50px;
+}
