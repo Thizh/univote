@@ -17,14 +17,13 @@ Route::get('/login', function () {
 Route::post('/initlogin', [AdminController::class, 'handleLogin'])->name('admin.handleLogin');
 
 
-
 Route::middleware([AuthGuard::class])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
     Route::get('/candidates', [AdminController::class, 'candidates'])->name('admin.candidates');
     Route::get('/voters', [AdminController::class, 'voters'])->name('admin.voters');
-    Route::get('/accept-vote', [AdminController::class, 'acceptVote'])->name('admin.acceptwote');
+    Route::get('/accept-vote', [AdminController::class, 'acceptVote'])->name('admin.acceptvote');
     Route::get('/polling', [AdminController::class, 'polling'])->name('admin.polling');
     Route::get('/results', [AdminController::class, 'results'])->name('admin.results');
 

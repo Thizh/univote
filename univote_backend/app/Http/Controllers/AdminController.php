@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ScreenUpdated;
 use App\Models\Admin;
 use App\Models\Candidate;
 use Illuminate\Http\Request;
@@ -86,6 +87,11 @@ class AdminController extends Controller
         return view('polling'); // Ensure this view exists
     }
 
+    public function acceptVote()
+    {
+        return view('acceptvote'); // Ensure this view exists
+    }
+
     public function results()
     {
         return view('results'); // Ensure this view exists
@@ -124,5 +130,48 @@ class AdminController extends Controller
             'election_started' => !$electionStarted,
             'message' => !$electionStarted ? 'Election started successfully' : 'Election stopped successfully',
         ]);
+    }
+
+    public function qrScanned(Request $req)
+    {
+
+        $data = $req->input('data');
+
+        $voteDetails = DB::table('votes')
+            ->join('voters', 'votes.vot_id', '=', 'voters.id')
+            ->where('votes.vot_id', $data)
+            ->select('voters.nic', 'voters.name', 'voters.email', 'voters.faculty', 'voters.level')
+            ->first();
+
+        try {
+            event(new ScreenUpdated(['update_key' => 'accept-vote']));
+            // ScreenUpdated::dispatch(['update_key' => 'accept-vote']);
+            return response()->json([true, 'details' => $voteDetails]);
+        } catch (Exception $e) {
+            return response()->json(['status' => 'success', 'error' => $e]);
+        }
+    }
+
+    public function acceptv(Request $req)
+    {
+        $data = $req->input('data');
+
+        try {
+            $voteDetails = DB::table('votes')
+                ->where('vot_id', $data)
+                ->first();
+
+            if ($voteDetails && !$voteDetails->isAccepted) {
+                DB::table('votes')
+                    ->where('vot_id', $data)
+                    ->update(['isAccepted' => true]);
+
+                return response()->json([true]);
+            }
+
+            return response()->json([false]);
+        } catch (Exception $e) {
+            return response()->json([false, 'error' => $e]);
+        }
     }
 }

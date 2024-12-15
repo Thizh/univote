@@ -2,6 +2,38 @@
 <html lang="en">
 
 <head>
+    <script type="module">
+
+        import Echo from '/js/echo.js';
+
+        import {Pusher} from '/js/pusher.js';
+
+        window.Pusher = Pusher
+
+        window.Echo = new Echo({
+            broadcaster: "pusher",
+            key: "8e49cb8e60d21e0478dc",
+            cluster: "ap2",
+            forceTLS: true,
+            enabledTransports: ['ws', 'wss'], // Add fallbacks
+            disabledTransports: ['xhr_polling', 'xhr_streaming'],
+        });
+
+        window.Echo.channel('screen-updates')
+            .listen('ScreenUpdated', (e) => {
+                    console.log(e)
+            })
+            .subscribed(() => {
+                console.log('Subscribed to channel screen-updates');
+            })
+            .listenToAll((event, data) => {
+                console.log(event, data)
+            });
+
+
+        console.log("websokets in use")
+
+    </script> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
@@ -27,7 +59,7 @@
             </div>
             <div class="list-group list-group-flush">
                 <a href="{{ route('admin.dashboard') }}" class="list-group-item list-group-item-action">Dashboard</a>
-                <a href="{{ route('admin.voters') }}" class="list-group-item list-group-item-action">Accept Vote</a>
+                <a href="{{ route('admin.acceptvote') }}" class="list-group-item list-group-item-action">Accept Vote</a>
                 <a href="{{ route('admin.candidates') }}" class="list-group-item list-group-item-action">Candidate Details</a>
                 <a href="{{ route('admin.voters') }}" class="list-group-item list-group-item-action">Voters Details</a>
                 <a href="{{ route('admin.polling') }}" class="list-group-item list-group-item-action">Polling Status</a>
@@ -67,6 +99,7 @@
             document.getElementById("wrapper").classList.toggle("toggled");
         });
     </script>
+
 </body>
 
 </html>

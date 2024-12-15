@@ -35,3 +35,5 @@ Route::post('/placevote', [VoterController::class, 'vote']);
 Route::get('/getstats', [VoterController::class, 'getStats']);
 
 Route::post('/adminLogin', [AdminController::class, 'mobileLogin']);
+Route::post('/qrsend', [AdminController::class, 'qrScanned']);
+Route::post('/acceptv', [AdminController::class, 'acceptv']);
