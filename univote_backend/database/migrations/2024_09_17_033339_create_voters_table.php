@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean('isFirstTime')->default(true);
             $table->string('otp');
             $table->string('academics_ref')->nullable();
+            $table->boolean('eligible')->default(false);
             $table->timestamps();
         });
     }

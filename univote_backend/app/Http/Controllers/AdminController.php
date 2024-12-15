@@ -2,23 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
+use App\Models\Candidate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use DB;
+use Exception;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
     public function handleLogin(Request $request)
     {
         // Default credentials
-        $defaultUsername = 'admin';
-        $defaultPassword = 'password123';
+        // $defaultUsername = 'admin';
+        // $defaultPassword = 'password123';
+        $user = Admin::where('username', $request->input('username'))->first();
 
-        if ($request->username === $defaultUsername && $request->password === $defaultPassword) {
-            Session::put('admin_logged_in', true); // Set session to indicate login
-            return redirect()->route('admin.dashboard');
+        if (Hash::check($request->input('password'), $user->password)) {
+            Session::put('admin_logged_in', true);
+            return redirect('/dashboard');
         }
 
         return redirect()->route('adminlogin')->with('error', 'Invalid username or password!');
+    }
+
+    public function mobileLogin(Request $request)
+    {
+        try {
+            $user = Admin::where('username', $request->input('username'))->first();
+
+            if (Hash::check($request->input('password'), $user->password)) {
+                $user->isLoggedIn = true;
+                return [true];
+            }
+
+            return [false, 'Invalid username or password'];
+        } catch (Exception $e) {
+            return ['error' => $e];
+        }
     }
 
     public function dashboard()
@@ -37,27 +59,70 @@ class AdminController extends Controller
     public function logout()
     {
         Session::flush(); // Clear all sessions
-        return redirect()->route('adminlogin')->with('message', 'Logged out successfully!');
+        return redirect('login')->with('message', 'Logged out successfully!');
     }
 
     public function candidates()
     {
-    return view('candidates'); // Ensure this view exists
+        $candidates = DB::table('candidates')
+            ->join('voters', 'voters.id', '=', 'candidates.user_id')
+            ->select('voters.id', 'voters.name', 'voters.nic', 'voters.email', 'voters.faculty', 'voters.level')
+            ->get();
+
+        return view('candidates', ['candidates' => $candidates]);
     }
-    
+
     public function voters()
-{
-    return view('voters'); // Ensure this view exists
-}
+    {
+        $voters = DB::table('voters')
+            ->select('id', 'name', 'nic', 'email', 'faculty', 'level', 'eligible')
+            ->get();
 
-public function polling()
-{
-    return view('polling'); // Ensure this view exists
-}
+        return view('voters', ['voters' => $voters]);
+    }
 
-public function results()
-{
-    return view('results'); // Ensure this view exists
-}
+    public function polling()
+    {
+        return view('polling'); // Ensure this view exists
+    }
 
+    public function results()
+    {
+        return view('results'); // Ensure this view exists
+    }
+
+    public function deleteCand($id)
+    {
+        $candidate = Candidate::find($id);
+
+        if ($candidate) {
+            $candidate->delete();
+            return back()->with('success', 'Candidate deleted successfully.');
+        } else {
+            return back()->with('error', 'Candidate not found.');
+        }
+    }
+
+    public function addCand(Request $req)
+    {
+        $voter = DB::table('voters')->where('nic', '=', $req->input('nic'))->first();
+
+        $candidate = new Candidate();
+        $candidate->user_id = $voter->id;
+        $candidate->contact_no = $req->input('contact');
+        $candidate->save();
+
+        return back();
+    }
+
+    public function startElection()
+    {
+        $electionStarted = Session::get('election_started', false);
+        Session::put('election_started', !$electionStarted);
+
+        return response()->json([
+            'election_started' => !$electionStarted,
+            'message' => !$electionStarted ? 'Election started successfully' : 'Election stopped successfully',
+        ]);
+    }
 }

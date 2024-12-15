@@ -37,4 +37,21 @@ class VoterController extends Controller
             return [false, 'error' => $e];
         }
     }
+
+    public function eligiblityChecked(Request $req)
+    {
+        $checked = $req->input('checked', 0);
+        $voter_id = $req->input('voter_id');
+    
+        $updateCount = DB::table('voters')
+            ->where('id', $voter_id)
+            ->update(['eligible' => $checked]);
+    
+        if ($updateCount) {
+            return response()->json(['message' => 'Voter updated successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Voter not found or update failed'], 404);
+        }
+    }
+
 }
