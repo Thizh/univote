@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,17 +8,33 @@ import {
   Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import baseurl from '../baseurl';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
+  const [error, setError] = useState('');
 
-  const handleLogin = () => {
-    if (!email || !password) {
+  const handleLogin = async () => {
+    if (!username || !password) {
       Alert.alert('Error', 'Please fill in all fields');
     } else {
-      navigation.navigate("scanner");
+      const res = await fetch(`${baseurl}/api/adminLogin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data[0]) {
+        navigation.navigate("scanner");
+      } else {
+        setError(data[1]);
+      }
     }
   };
 
@@ -30,8 +46,8 @@ const Login = () => {
         placeholder="Email"
         keyboardType="email-address"
         autoCapitalize="none"
-        onChangeText={(text) => setEmail(text)}
-        value={email}
+        onChangeText={(text) => setUsername(text)}
+        value={username}
       />
       <TextInput
         style={styles.input}
@@ -40,7 +56,8 @@ const Login = () => {
         onChangeText={(text) => setPassword(text)}
         value={password}
       />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <Text>{error}</Text>
+      <TouchableOpacity style={styles.button} onPress={() => handleLogin()}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
     </View>

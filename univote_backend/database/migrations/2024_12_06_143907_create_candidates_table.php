@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('user_id');
             $table->string('contact_no');
+            $table->boolean('eligible')->default(false);
             $table->timestamps();
         });
     }

@@ -15,6 +15,30 @@ function CandidateApply() {
   const user_id = Cookies.get('user_id');
   const [isLoading, setIsLoading] = useState(false);
   const baseurl = import.meta.env.VITE_BASE_URL;
+  const [applied, setApplied] = useState(null);
+  const [refNo, setRefNo] = useState('');
+
+  useEffect(() => {
+    isApplied();
+  }, []);
+
+  const isApplied = async () => {
+    setIsLoading(true);
+    try {
+      let res = await fetch(`${baseurl}/api/isApplied/${user_id}`);
+      const data = await res.json();
+      if (!data[0]) {
+        setApplied(false);
+      } else {
+        setApplied(true);
+        setRefNo(data.ref);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const handleApply = async (event) => {
     if (contactNo) {
@@ -30,13 +54,12 @@ function CandidateApply() {
       });
       const data = await res.json();
       if (data[0]) {
-        setShowQRCode(true);
+        setApplied(true);
+        setRefNo(data.ref);
       } else {
         setError('error occured');
       }
       setIsLoading(false);
-
-       // Show QR code after successful form submission
     } else {
       alert('All fields are required.');
       setShowQRCode(false);
@@ -48,10 +71,14 @@ function CandidateApply() {
     <Header />
 
     <div className="candidate-apply-container">
+      {applied == false ? (
+        <>
       <h2>Candidate Application</h2>
 
-      <div style={{borderWidth: 1, borderColor: '#000', height: '30vh', width: '20vw', color: '#000'}}>
-          <p>download by law</p>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <a href={`${baseurl}/storage/pdfs/by_law.pdf`} target="_blank" rel="noopener noreferrer">
+          by_law.pdf
+        </a>
       </div>
       
       <div className="form">
@@ -66,18 +93,16 @@ function CandidateApply() {
 
         <button onClick={handleApply} className="apply-button">Apply</button>
       </div>
-
-      {/* Conditionally render the QR code */}
-      {showQRCode && (
-
-        <div className="qr-container" onClick={() => setShowQRCode(false)}>
-          <QRCode
-            value={`${user_id}`}
-            size={300}
-          />
-          <div style={{backgroundColor: 'green', padding: 5, width:300,  alignItems: 'center', justifyContent: 'center', display: 'flex', color: '#fff', marginTop: '5%', borderRadius: 55, cursor: 'pointer'}}>
-            <p style={{fontWeight: 700, fontSize: 20}}>Download</p>
+      </>
+      ) : (
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 60}}>
+          <div style={{marginBottom: '10vh', fontSize: 20}}>You have applied to be a Candidate</div>
+          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10vh'}}>
+            <span style={{fontWeight: '500', fontSize: 25}}>Reference Number:</span>
+            <span style={{fontWeight: '700', fontSize: 26}}>{refNo}</span>
           </div>
+          <div style={{fontSize: 16, color: '#808080', margin: '5vh 30vw', textAlign: 'center'}}>You are required to bring your OUSL record book to the nearest OUSL Regional or Study Centre to verify your eligibility as a candidate.  
+            Please ensure to complete this process before the election takes place, as this step is essential for the verification process.</div>
         </div>
       )}
     </div>

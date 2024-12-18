@@ -17,12 +17,14 @@ return new class extends Migration
             $table->string('name');
             $table->string('password');
             $table->string('email');
+            $table->string('reg_no');
             $table->string('faculty')->nullable();
             $table->string('level')->nullable();
             $table->boolean('emailVerified')->default(false);
             $table->boolean('isFirstTime')->default(true);
             $table->string('otp');
             $table->string('academics_ref')->nullable();
+            $table->boolean('eligible')->default(false);
             $table->timestamps();
         });
     }
