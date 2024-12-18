@@ -37,3 +37,12 @@ Route::get('/getstats', [VoterController::class, 'getStats']);
 Route::post('/adminLogin', [AdminController::class, 'mobileLogin']);
 Route::post('/qrsend', [AdminController::class, 'qrScanned']);
 Route::post('/acceptv', [AdminController::class, 'acceptv']);
+
+Route::post('/accept-or-reject', [AdminController::class, 'acceptVoter']);
+Route::get('/isVoted/{id}', [VoterController::class, 'isVoted']);
+
+Route::get('/isApplied/{id}', [VoterController::class, 'isApplied']);
+Route::post('/saveqr', [VoterController::class, 'saveQR']);
+
+Route::post('/bylawupload', [AdminController::class, 'byLawPdf']);
+Route::get('/download-svg/{user_id}', [VoterController::class, 'downloadSvg']);

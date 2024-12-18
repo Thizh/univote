@@ -6,6 +6,7 @@ use App\Models\Vote;
 use Exception;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Storage;
 
 class VoterController extends Controller
 {
@@ -16,9 +17,9 @@ class VoterController extends Controller
             $vote->can_id = $req->input('candidate');
             $vote->save();
 
-            return [true, 'voted' => $vote->id];
+            return [true];
         } catch (Exception $e) {
-            return [false];
+            return [false, 'err' => $e];
         }
     }
 
@@ -52,6 +53,64 @@ class VoterController extends Controller
         } else {
             return response()->json(['message' => 'Voter not found or update failed'], 404);
         }
+    }
+
+    public function isVoted($id) {
+        $voter = DB::table('votes')->where('vot_id', $id)->exists();
+
+        if (!$voter) {
+            return [false];
+        }
+        
+        return [true];
+
+    }
+
+
+    public function isApplied($id) {
+        $candidate = DB::table('candidates')->where('user_id', $id)->first();
+
+        if (!$candidate) {
+            return [false];
+        }
+        
+        return [true, 'ref' => $candidate->id];
+
+    }
+
+    public function saveQR(Request $req) {
+        $uid = $req->input('voter');
+
+        $fileData = $req->input('code');
+        // $decodedFile = base64_decode(preg_replace('#^data:image/svg+xml;base64,#', '', $fileData));
+
+        try {
+            
+            $fileName = $uid . ".svg";
+            $filePath = 'qr_codes/' . $fileName;
+
+            Storage::put($filePath, $fileData);
+
+            return [true, "file" => $fileName];
+
+        } catch (Exception $e) {
+            return [false];
+        }
+
+    }
+
+    public function downloadSvg($user_id)
+    {
+        $filePath = storage_path("qr_codes/{$user_id}.svg");
+
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        return response()->download($filePath, "{$user_id}.svg", [
+            'Content-Type' => 'image/svg+xml',
+            'Content-Disposition' => 'attachment; filename="' . "{$user_id}.svg" . '"',
+        ]);
     }
 
 }

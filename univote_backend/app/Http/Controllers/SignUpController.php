@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\OTPMail;
+use App\Models\Election;
 use App\Models\StudentId;
 use App\Models\tempVoter;
 use App\Models\Voter;
@@ -98,6 +99,7 @@ class SignUpController extends Controller
                 $user->name = $name;
                 $user->password = Hash::make($reg_no);
                 $user->email = $voterEmail;
+                $user->reg_no = $reg_no;
                 $user->otp = $otp;
                 $user->save();
         
@@ -127,9 +129,19 @@ class SignUpController extends Controller
     }
 
     public function isFirstTime(Request $req) {
+
+        // $election = session()->has('election_started') && session('election_started') === true;
+        $election = Election::where('id', 1)->first();
+
+        if(!$election->isStarted) {
+            $election = false;
+        } else {
+            $election = true;
+        }
+
         $user = Voter::where('id', $req->input('id'))->first();
 
-        return [true, 'firstTime' => $user->isFirstTime];
+        return [true, 'firstTime' => $user->isFirstTime, 'isElection' => $election];
     }
 
     public function saveUserData(Request $req) {
@@ -137,6 +149,7 @@ class SignUpController extends Controller
 
         try {
             $user->isFirstTime = false;
+            $user->password = Hash::make($req->input('password'));
             $user->faculty = $req->input('faculty');
             $user->level = $req->input('level');
             $user->save();

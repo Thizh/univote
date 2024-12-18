@@ -2,7 +2,7 @@
 @section('content')
 
 
-@if($voter)
+<!-- @if($voter)
 <div style="font-family: Arial, sans-serif; max-width: 400px; margin: 20px auto; padding: 15px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
     <div style="margin-bottom: 20px;">
         <input type="hidden" value="{{ $voter->vote_id }}" id="vote_id"/>
@@ -61,7 +61,7 @@
         });
     });
 
-</script>
+</script> -->
 
 
 

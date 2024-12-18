@@ -5,11 +5,11 @@ import baseurl from '../baseurl';
 
 export default function Scanner() {
   const [scanned, setScanned] = useState(false);
-  const [nic, setNic] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [faculty, setFaculty] = useState('');
-  const [level, setLevel] = useState('');
+  // const [nic, setNic] = useState('');
+  // const [name, setName] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [faculty, setFaculty] = useState('');
+  // const [level, setLevel] = useState('');
   const [error, setError] = useState('');
   const [qrData, setQrData] = useState('');
 
@@ -29,11 +29,11 @@ export default function Scanner() {
     if (resdata[0]) {
       const details = resdata['details'];
       setScanned(true);
-      setNic(details['nic']);
-      setName(details['name']);
-      setEmail(details['email']);
-      setFaculty(details['faculty']);
-      setLevel(details['level']);
+      // setNic(details['nic']);
+      // setName(details['name']);
+      // setEmail(details['email']);
+      // setFaculty(details['faculty']);
+      // setLevel(details['level']);
     }
   };
 
@@ -52,11 +52,11 @@ export default function Scanner() {
     if (resdata[0]) {
       setQrData('');
       setScanned(false);
-      setNic('');
-      setName('');
-      setEmail('');
-      setFaculty('');
-      setLevel('');
+      // setNic('');
+      // setName('');
+      // setEmail('');
+      // setFaculty('');
+      // setLevel('');
     } else {
       setError('Already Scanned');
     }
@@ -73,7 +73,7 @@ export default function Scanner() {
       />
       {scanned && (
         <View style={styles.detailsContainer}>
-        <Text>NIC: {nic}</Text>
+        {/* <Text>NIC: {nic}</Text>
         <Text>Name: {name}</Text>
         <Text>Email: {email}</Text>
         <Text>Faculty: {faculty}</Text>
@@ -84,7 +84,7 @@ export default function Scanner() {
         <Button title={"Accept Vote"} onPress={setVote} style={styles.button}/>
         <View style={{height: 30}}>
           
-        </View>
+        </View> */}
         <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} style={styles.button}/>
         </View>
      )}

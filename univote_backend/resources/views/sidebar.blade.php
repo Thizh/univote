@@ -59,17 +59,19 @@
             </div>
             <div class="list-group list-group-flush">
                 <a href="{{ route('admin.dashboard') }}" class="list-group-item list-group-item-action">Dashboard</a>
+                @if (session('election_started'))
                 <a href="{{ route('admin.acceptvote') }}" class="list-group-item list-group-item-action">Accept Vote</a>
+                @else
+                <a href="{{ route('admin.acceptcandidate') }}" class="list-group-item list-group-item-action">Accept Candidate</a>
+                @endif
                 <a href="{{ route('admin.candidates') }}" class="list-group-item list-group-item-action">Candidate Details</a>
                 <a href="{{ route('admin.voters') }}" class="list-group-item list-group-item-action">Voters Details</a>
-                <a href="{{ route('admin.polling') }}" class="list-group-item list-group-item-action">Polling Status</a>
                 <a href="{{ route('admin.results') }}" class="list-group-item list-group-item-action">Result</a>
             </div>
         </div>
         <div id="page-content-wrapper">
             <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                 <div class="container-fluid">
-                    <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
                     <div class="navbar-collapse">
                         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
                             <li class="nav-item dropdown">
@@ -94,11 +96,11 @@
     </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+    <!-- <script>
         document.getElementById("menu-toggle").addEventListener("click", function() {
             document.getElementById("wrapper").classList.toggle("toggled");
         });
-    </script>
+    </script> -->
 
 </body>
 

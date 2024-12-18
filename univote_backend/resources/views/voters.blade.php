@@ -9,10 +9,11 @@
                 <th style="border: 1px solid #ddd; padding: 8px;">Name</th>
                 <th style="border: 1px solid #ddd; padding: 8px;">NIC</th>
                 <th style="border: 1px solid #ddd; padding: 8px;">Email</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Reg No.</th>
                 <th style="border: 1px solid #ddd; padding: 8px;">Faculty</th>
                 <th style="border: 1px solid #ddd; padding: 8px;">Level</th>
-                <th style="border: 1px solid #ddd; padding: 8px;">Eligible</th>
-                <th style="border: 1px solid #ddd; padding: 8px;">Action</th>
+                <!-- <th style="border: 1px solid #ddd; padding: 8px;">Eligible</th> -->
+                <!-- <th style="border: 1px solid #ddd; padding: 8px;">Action</th> -->
             </tr>
         </thead>
         <tbody>
@@ -22,12 +23,13 @@
                 <td style="border: 1px solid #ddd; padding: 8px;">{{ $voter->name }}</td>
                 <td style="border: 1px solid #ddd; padding: 8px;">{{ $voter->nic }}</td>
                 <td style="border: 1px solid #ddd; padding: 8px;">{{ $voter->email }}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">{{ $voter->reg_no }}</td>
                 <td style="border: 1px solid #ddd; padding: 8px;">{{ $voter->faculty }}</td>
                 <td style="border: 1px solid #ddd; padding: 8px;">{{ $voter->level }}</td>
-                <td style="border: 1px solid #ddd; padding: 8px;">
+                <!-- <td style="border: 1px solid #ddd; padding: 8px;">
                     <input type="checkbox" name="eligible" style="height: 15px; width: 15px;" data-id="{{ $voter->id }}" {{ $voter->eligible ? 'checked' : '' }} class="eligible-checkbox"/>
-                </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">
+                </td> -->
+                <!-- <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">
                     <form action="{{ route('candidates.delete', $voter->id) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
@@ -35,7 +37,7 @@
                             Delete
                         </button>
                     </form>
-                </td>
+                </td> -->
             </tr>
             @endforeach
         </tbody>

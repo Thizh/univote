@@ -30,7 +30,7 @@
                         <th>Email</th>
                         <th>Faculty</th>
                         <th>Level</th>
-                        <th>Action</th>
+                        <th>Eligiblity</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,7 +42,10 @@
                             <td>{{ $candidate->email }}</td>
                             <td>{{ $candidate->faculty }}</td>
                             <td>{{ $candidate->level }}</td>
-                            <td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">
+                                <input type="checkbox" name="eligible" style="height: 15px; width: 15px;" data-id="{{ $candidate->id }}" {{ $candidate->eligible ? 'checked' : '' }} class="eligible-checkbox"/>
+                            </td>
+                            <!-- <td>
                                 <form action="{{ route('candidates.delete', $candidate->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
@@ -50,7 +53,7 @@
                                         Delete
                                     </button>
                                 </form>
-                            </td>
+                            </td> -->
                         </tr>
                     @endforeach
                 </tbody>
@@ -64,5 +67,38 @@
             $('#candidateTable').DataTable();
             $('.js-example-basic-single').select2();
         });
+
+        window.onload = function() {
+        document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+            if (!checkbox.hasAttribute('checked')) {
+                checkbox.checked = false;
+            } else {
+                checkbox.checked = true;
+            }
+        });
+    };
+
+    $(document).on('change', '.eligible-checkbox', function() {
+    const checkbox = $(this);
+
+    const canId = checkbox.data('id');
+    const isChecked = checkbox.is(':checked') ? true : false;
+
+    $.ajax({
+        url: '/candidate-eligible_checked',
+        method: 'POST',
+        data: {
+            can_id: canId,
+            eligible_checked: isChecked,
+            _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            alert(response.message);
+        },
+        error: function(xhr) {
+            alert('Failed to update status.');
+        }
+        }); 
+    });
     </script>
 @endsection
