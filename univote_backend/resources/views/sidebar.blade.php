@@ -61,8 +61,6 @@
                 <a href="{{ route('admin.dashboard') }}" class="list-group-item list-group-item-action">Dashboard</a>
                 @if (session('election_started'))
                 <a href="{{ route('admin.acceptvote') }}" class="list-group-item list-group-item-action">Accept Vote</a>
-                @else
-                <a href="{{ route('admin.acceptcandidate') }}" class="list-group-item list-group-item-action">Accept Candidate</a>
                 @endif
                 <a href="{{ route('admin.candidates') }}" class="list-group-item list-group-item-action">Candidate Details</a>
                 <a href="{{ route('admin.voters') }}" class="list-group-item list-group-item-action">Voters Details</a>

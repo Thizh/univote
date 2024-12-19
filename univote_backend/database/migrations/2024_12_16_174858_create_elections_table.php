@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('elections', function (Blueprint $table) {
             $table->id();
             $table->boolean('isStarted')->default(false);
+            // $table->date('end_date')->nullable();
             $table->timestamps();
         });
 

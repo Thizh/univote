@@ -28,6 +28,7 @@
                         <th>Name</th>
                         <th>NIC</th>
                         <th>Email</th>
+                        <th>Reg  No</th>
                         <th>Faculty</th>
                         <th>Level</th>
                         <th>Eligiblity</th>
@@ -40,6 +41,7 @@
                             <td>{{ $candidate->name }}</td>
                             <td>{{ $candidate->nic }}</td>
                             <td>{{ $candidate->email }}</td>
+                            <td>{{ $candidate->reg_no }}</td>
                             <td>{{ $candidate->faculty }}</td>
                             <td>{{ $candidate->level }}</td>
                             <td style="border: 1px solid #ddd; padding: 8px;">

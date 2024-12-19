@@ -2,7 +2,7 @@
 @section('content')
 <style>
         .box {
-            height: 10vh;
+            height: 15vh;
             width: 15vw;
             background-color: grey;
             display: flex;
@@ -15,9 +15,21 @@
         }
     </style>
     <div class="container-fluid mt-4">
-        <div>
-            <div class="box" id="toggle-election">
+        <div style="display: flex; gap: 15px">
+            <div class="box" id="toggle-election" style="height: 30vh; width: 30vw; font-size: 25px;">
                 {{ Session::get('election_started', false) ? 'Election Started' : 'Start Election' }}
+            </div>
+            <div class="box" style="display: flex; flex-direction: column; background-color: #82A69C">
+                <span>Registered Voters</span><br>
+                <span style="font-size: 20px;">{{$voters}}</span>
+            </div>
+            <div class="box" style="display: flex; flex-direction: column; background-color: #3C3A3D">
+                <span>Registered Candidates</span><br>
+                <span style="font-size: 20px;">{{$candidates}}</span>
+            </div>
+            <div class="box" style="display: flex; flex-direction: column; background-color: #A69C7D">
+                <span>Eligible Candidates</span><br>
+                <span style="font-size: 20px;">{{$eligibleCandidates}}</span>
             </div>
         </div>
         <div style="border: 1px solid #000; margin: 5% 0; padding: 5%; width: 30%">
