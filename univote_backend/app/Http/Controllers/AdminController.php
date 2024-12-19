@@ -49,11 +49,18 @@ class AdminController extends Controller
     }
 
     public function dashboard()
-    {
+    {  
+        $votersCount = DB::table('voters')->count();
+
+        $candidatesCount = DB::table('candidates')->count();
+
+        $eligibleCandidatesCount = DB::table('candidates')->where('eligible', 1)->count();
+        
+
         if (!Session::get('admin_logged_in')) {
             return redirect()->route('adminlogin')->with('error', 'Please log in first.');
         }
-        return view('dashboard');
+        return view('dashboard', ['voters' => $votersCount, 'candidates' => $candidatesCount, 'eligibleCandidates' => $eligibleCandidatesCount]);
     }
 
     public function profile()
