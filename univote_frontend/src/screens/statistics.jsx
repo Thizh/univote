@@ -4,10 +4,12 @@ import { Bar } from 'react-chartjs-2';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../css/stats.css';
+import { useSelector } from 'react-redux';
 
 const Statistics = () => {
   const baseurl = import.meta.env.VITE_BASE_URL;
   const [voteData, setVoteData] = useState([]);
+  const election = useSelector((state) => state.user.isElectionStarted)
 
   useEffect(() => {
     getStats();
@@ -38,6 +40,8 @@ const Statistics = () => {
       <Header />
     <div className="statistics-container">
       {/* Vote Counts Section */}
+      {election ? (
+        <>
       <div className="vote-counts">
         <h3>Vote Counts</h3>
         {voteData.map((data, index) => (
@@ -54,6 +58,12 @@ const Statistics = () => {
         <h3>Leading</h3>
         <div className="leading-icon">{voteData ? leadingVote.can_name : 'no data'}</div>
       </div>
+      </>
+      ): (
+        <div style={{width: '100%', height: '100%'}}>
+          <div style={{textAlign: 'center', fontSize: 35, fontWeight: 600}}>Election is not Started yet.</div>
+        </div>
+      )}
     </div>
     <Footer />
     </div>

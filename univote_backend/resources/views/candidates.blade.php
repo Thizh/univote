@@ -5,7 +5,7 @@
     <div style="display: flex; flex-direction: row; gap: 2rem;">
         <!-- Candidate Creation Form -->
         <div class="card1" style="flex: 1; padding-left: 5%">
-            <form action="/addcandidate" method="POST" name="userForm">
+            <form action="/addusers" method="POST" name="userForm">
                 @csrf
                 <div class="text-field">
                     <label for="nic">*NIC</label>

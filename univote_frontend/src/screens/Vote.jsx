@@ -167,13 +167,15 @@ function Vote() {
         </>
       ) : (
         <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-          <div style={{fontSize: 18, fontWeight: 700, margin: '5%'}}>You are Voted <br /> Here is your QR Code</div>
+          <div style={{fontSize: 18, fontWeight: 700, margin: '2%'}}>Your Vote is Recorded <br /> Here is your QR Code</div>
           {qrData ? (
             <div ref={qrCodeRef}>
-              <QRCode value={qrData} size={300} />
+              <QRCode value={qrData} size={'20%'} />
             </div>
           ) : (
-            <img src={`${baseurl}/storage/qr_codes/${user_id}.svg`} style={{ width: 300, height: 'auto' }} />
+            <div style={{ width: '20%', height: '20%' }}>
+            <img src={`${baseurl}/storage/qr_codes/${user_id}.svg`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            </div>
           )}
           <a href={`${baseurl}/storage/qr_codes/${user_id}.svg`} download="QR_code.svg">Download</a>
         </div>

@@ -97,72 +97,84 @@ function LoginSignUp() {
   }
 
   return (
-    <div className="container" id="container">
-      {!pwSubmitted ? (
-        <>
-      <div className="form-container sign-in-container">
-        <form onSubmit={name ? checkPass : fetchStu}>
-          <img src={Logo} alt="A beautiful scenery" width="30" height="40" />
-          <h1 className="signin-h1">Sign in or Create an Account</h1>
-            {name ? (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                  <img src={Logo} alt="A beautiful scenery" width="30" height="40" />
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: 10 }}>
-                    <p style={{ color: '#000', fontSize: 15, margin: 0 }}>{name}</p>
-                    <p style={{ color: '#000', fontSize: 10, margin: 0 }}>{nic}</p>
-                  </div>
-                </div>
-                <input type="password" placeholder="Password" style={{ padding: '8px', fontSize: '14px', width: '100%' }} onChange={event => setPassword(event.target.value)}/>
-              </div>
-
-            ) : (
-              <input type="text" placeholder="NIC Number" onChange={event => {setNic(event.target.value), setError('')}}/>
-            )}
-            <p style={{color: 'red'}}>{error}</p>
-            
-            <button style={{marginTop: '10%'}}> {isLoading ? <FourSquare color="#ff3d00" size="small" text="" textColor="" /> : "Next" }</button>
-        </form>
-
-      </div>
-      
-      <div className="overlay-container">
-        <div className="overlay">
-          <div className="overlay-panel overlay-right">
+    <div style={{ height: '100%', width: '100vw' }}>
+      <div className="overlay-container-mobile">
+          <div className='overlay-mobile'>
             <h1>Hello Voter!</h1>
             {name ? (
               <p>If you are a first timer login password is your OUSL Registration Number</p>
             ) : (
               <p>Your vote is awaiting.</p>
             )}
-            
-          </div>
-        </div>
+            </div>
       </div>
-      </>
-      ) : email && (
-        <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-          <div style={{color: '#000', fontSize: 25, fontWeight: '700', margin: '6%'}}>Enter Otp</div>
-          <div style={{color: '#000', marginTop: '5%'}}>we sent an OTP to your OUSL mail <span style={{fontWeight: '700'}}>{email}</span> Please enter the OTP below. </div>
+      <div className="container" id="container">
+        {!pwSubmitted ? (
+          <>
+            <div className="form-container sign-in-container">
+              <form onSubmit={name ? checkPass : fetchStu}>
+                <img src={Logo} alt="A beautiful scenery" width="30" height="40" />
+                <h1 className="signin-h1">Sign in or Create an Account</h1>
+                {name ? (
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                      <img src={Logo} alt="A beautiful scenery" width="30" height="40" />
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: 10 }}>
+                        <p style={{ color: '#000', fontSize: 15, margin: 0 }}>{name}</p>
+                        <p style={{ color: '#000', fontSize: 10, margin: 0 }}>{nic}</p>
+                      </div>
+                    </div>
+                    <input type="password" placeholder="Password" style={{ padding: '8px', fontSize: '14px', width: '100%' }} onChange={event => setPassword(event.target.value)} />
+                  </div>
+
+                ) : (
+                  <input type="text" placeholder="NIC Number" onChange={event => { setNic(event.target.value), setError('') }} />
+                )}
+                <p style={{ color: 'red' }}>{error}</p>
+
+                <button style={{ marginTop: '10%' }}> {isLoading ? <FourSquare color="#ff3d00" size="small" text="" textColor="" /> : "Next"}</button>
+              </form>
+
+            </div>
+
+            <div className="overlay-container">
+              <div className="overlay">
+                <div className="overlay-panel overlay-right">
+                  <h1>Hello Voter!</h1>
+                  {name ? (
+                    <p>If you are a first timer login password is your OUSL Registration Number</p>
+                  ) : (
+                    <p>Your vote is awaiting.</p>
+                  )}
+
+                </div>
+              </div>
+            </div>
+          </>
+        ) : email && (
+          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+            <div style={{ color: '#000', fontSize: 25, fontWeight: '700', margin: '6%' }}>Enter Otp</div>
+            <div style={{ color: '#000', marginTop: '5%' }}>we sent an OTP to your OUSL mail <span style={{ fontWeight: '700' }}>{email}</span> Please enter the OTP below. </div>
             <OTPInput
               value={otp}
               onChange={setOtp}
               numInputs={6}
-              inputStyle={{  
-                width: '3rem',  
-                height: '3rem',  
-                margin: '20px 1rem',  
-                fontSize: '1rem',  
-                borderRadius: 4,  
-                border: '2px solid rgba(0,0,0,0.3)',                      
-            }}
+              inputStyle={{
+                width: '3rem',
+                height: '3rem',
+                margin: '20px 1rem',
+                fontSize: '1rem',
+                borderRadius: 4,
+                border: '2px solid rgba(0,0,0,0.3)',
+              }}
               renderSeparator={<span>-</span>}
               renderInput={(props) => <input {...props} />}
             />
-          <p style={{color: 'red'}}>{error}</p>
-          <button style={{marginTop: '5%'}} onClick={checkOtp}> {isLoading ? <FourSquare color="#ff3d00" size="small" text="" textColor="" /> : "Register" }</button>
-        </div>
+            <p style={{ color: 'red' }}>{error}</p>
+            <button style={{ marginTop: '5%' }} onClick={checkOtp}> {isLoading ? <FourSquare color="#ff3d00" size="small" text="" textColor="" /> : "Register"}</button>
+          </div>
         )};
+      </div>
     </div>
   );
 }
