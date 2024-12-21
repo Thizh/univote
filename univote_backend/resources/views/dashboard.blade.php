@@ -16,9 +16,11 @@
     </style>
     <div class="container-fluid mt-4">
         <div style="display: flex; gap: 15px">
+            @if(!session()->has('staff_logged_in'))
             <div class="box" id="toggle-election" style="height: 30vh; width: 30vw; font-size: 25px;">
                 {{ Session::get('election_started', false) ? 'Election Started' : 'Start Election' }}
             </div>
+            @endif
             <div class="box" style="display: flex; flex-direction: column; background-color: #82A69C">
                 <span>Registered Voters</span><br>
                 <span style="font-size: 20px;">{{$voters}}</span>

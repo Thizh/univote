@@ -4,14 +4,16 @@ import Footer from '../components/Footer';
 import '../css/styles.css';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 function Home() {
 
   const navigation = useNavigate();
-
+  const election = useSelector((state) => state.user.isElectionStarted)
+  
   const userId = Cookies.get('user_id');
   const [firstTime, isFirstTime] = useState(false);
-  const [election, setElection] = useState(false);
+  // const [election, setElection] = useState(false);
 
   const [password, setPassword] = useState('');
   const [firstPage, isFirstPage] = useState(true);
@@ -19,7 +21,6 @@ function Home() {
   const [faculty, setFaculty] = useState('');
   const [level, setLevel] = useState('');
   const baseurl = import.meta.env.VITE_BASE_URL;
-
 
   useEffect(() => {
     checkUser();
@@ -40,7 +41,6 @@ function Home() {
     console.log(data);
     if (data[0]) {
       isFirstTime(data.firstTime == 1);
-      setElection(data.isElection);
     }
   }
 
@@ -49,7 +49,6 @@ function Home() {
     if (password != confirmPw) {
       setError('Passwords are not equal');
     }
-
     setError('');
 
   }

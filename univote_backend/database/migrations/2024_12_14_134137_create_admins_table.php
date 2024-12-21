@@ -18,12 +18,14 @@ return new class extends Migration
             $table->string('username');
             $table->string('password');
             $table->boolean('isLoggedIn')->default(false);
+            $table->string('user_type');
             $table->timestamps();
         });
 
         FacadesDB::table('admins')->insert([
             'username' => 'admin',
             'password' => Hash::make('1234'),
+            'user_type' => 'admin',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

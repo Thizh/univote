@@ -46,3 +46,5 @@ Route::post('/saveqr', [VoterController::class, 'saveQR']);
 
 Route::post('/bylawupload', [AdminController::class, 'byLawPdf']);
 Route::get('/download-svg/{user_id}', [VoterController::class, 'downloadSvg']);
+
+Route::get('/is-started', [SignUpController::class, 'isElectionStarted']);

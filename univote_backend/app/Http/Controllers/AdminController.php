@@ -25,11 +25,18 @@ class AdminController extends Controller
         $user = Admin::where('username', $request->input('username'))->first();
 
         if (Hash::check($request->input('password'), $user->password)) {
-            Session::put('admin_logged_in', true);
-            return redirect('/dashboard');
+            switch ($user->user_type) {
+                case 'admin':
+                    Session::put('admin_logged_in', true);
+                    return redirect('/dashboard');
+                case 'staff':
+                    Session::put('admin_logged_in', true);
+                    Session::put('staff_logged_in', true);
+                    return redirect('/dashboard');
+            }
         }
 
-        return redirect()->route('adminlogin')->with('error', 'Invalid username or password!');
+        return redirect()->route('login')->with('error', 'Invalid username or password!');
     }
 
     public function mobileLogin(Request $request)
@@ -195,6 +202,19 @@ class AdminController extends Controller
         }
     }
 
+    public function deleteUser($id)
+    {
+        $user = Admin::find($id);
+
+        if ($user) {
+            $user->delete();
+            return back()->with('success', 'user deleted successfully.');
+        } else {
+            return back()->with('error', 'user not found.');
+        }
+    }
+
+
     public function addCand(Request $req)
     {
         $voter = DB::table('voters')->where('nic', '=', $req->input('nic'))->first();
@@ -203,6 +223,18 @@ class AdminController extends Controller
         $candidate->user_id = $voter->id;
         $candidate->contact_no = $req->input('contact');
         $candidate->save();
+
+        return back();
+    }
+
+    public function addUser(Request $req)
+    {
+
+        $user = new Admin();
+        $user->username = $req->input('username');
+        $user->password = $req->input('password');
+        $user->user_type = $req->input('utype');
+        $user->save();
 
         return back();
     }
@@ -299,5 +331,12 @@ class AdminController extends Controller
                 'error' => $e
             ]);
         }
+    }
+
+    public function createStaff() {
+
+        $users = Admin::all();
+
+        return view('createstaff', ['users' => $users]);
     }
 }

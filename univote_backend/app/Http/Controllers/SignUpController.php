@@ -130,6 +130,13 @@ class SignUpController extends Controller
 
     public function isFirstTime(Request $req) {
 
+        $user = Voter::where('id', $req->input('id'))->first();
+
+        return [true, 'firstTime' => $user->isFirstTime];
+    }
+
+    public function isElectionStarted() {
+
         // $election = session()->has('election_started') && session('election_started') === true;
         $election = Election::where('id', 1)->first();
 
@@ -139,9 +146,7 @@ class SignUpController extends Controller
             $election = true;
         }
 
-        $user = Voter::where('id', $req->input('id'))->first();
-
-        return [true, 'firstTime' => $user->isFirstTime, 'isElection' => $election];
+        return [$election];
     }
 
     public function saveUserData(Request $req) {

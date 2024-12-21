@@ -6,7 +6,6 @@ const Profile = () => {
 
     const navigate = useNavigate();
 
-
     const logOut = useCallback(() => {
         Cookies.remove("user_id");
         Cookies.remove("isLoggedIn");

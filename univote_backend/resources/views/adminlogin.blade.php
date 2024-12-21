@@ -24,7 +24,7 @@
             <input type="password" name="password" id="password" class="form-control" required>
         </div>
         @if(session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
+            <div class="alert" style="color: red">{{ session('error') }}</div>
         @endif
         <button type="submit" class="btn btn-primary w-100">Login</button>
     </form>

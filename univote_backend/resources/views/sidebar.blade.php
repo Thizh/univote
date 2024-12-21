@@ -46,6 +46,8 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
 </head>
 
@@ -65,6 +67,9 @@
                 <a href="{{ route('admin.candidates') }}" class="list-group-item list-group-item-action">Candidate Details</a>
                 <a href="{{ route('admin.voters') }}" class="list-group-item list-group-item-action">Voters Details</a>
                 <a href="{{ route('admin.results') }}" class="list-group-item list-group-item-action">Result</a>
+                @if (!session()->has('staff_logged_in'))
+                <a href="{{ route('admin.createstaff') }}" class="list-group-item list-group-item-action">Create User</a>
+                @endif
             </div>
         </div>
         <div id="page-content-wrapper">
