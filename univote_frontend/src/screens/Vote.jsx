@@ -170,7 +170,7 @@ function Vote() {
           <div style={{fontSize: 18, fontWeight: 700, margin: '2%'}}>Your Vote is Recorded <br /> Here is your QR Code</div>
           {qrData ? (
             <div ref={qrCodeRef}>
-              <QRCode value={qrData} size={'20%'} />
+              <QRCode value={qrData} size={300} />
             </div>
           ) : (
             <div style={{ width: '20%', height: '20%' }}>

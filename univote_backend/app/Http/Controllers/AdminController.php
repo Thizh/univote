@@ -263,12 +263,6 @@ class AdminController extends Controller
     {
         $data = $this->decryptData($req->input('data'));
 
-        // $voteDetails = DB::table('votes')
-        //     ->join('voters', 'votes.vot_id', '=', 'voters.id')
-        //     ->where('votes.id', $data)
-        //     ->select('voters.nic', 'voters.name', 'voters.email', 'voters.faculty', 'voters.level')
-        //     ->first();
-
         try {
             // event(new ScreenUpdated(['update_key' => 'accept-vote']));
             // ScreenUpdated::dispatch(['update_key' => 'accept-vote']);
@@ -276,7 +270,7 @@ class AdminController extends Controller
                 ->where('id', $data)
                 ->update(['lastSeen' => true]);
 
-            return response()->json([true]);
+            return response()->json([true, 'id' => $data]);
         } catch (Exception $e) {
             return response()->json(['status' => 'success', 'error' => $e]);
         }

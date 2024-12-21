@@ -37,30 +37,30 @@ export default function Scanner() {
     }
   };
 
-  const setVote = async () => {
-    const res = await fetch(`${baseurl}/api/acceptv`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({ data: qrData }),
-    });
-    const resdata = await res.json();
-    console.log("qr", qrData);
-    console.log("resdata", resdata);
-    if (resdata[0]) {
-      setQrData('');
-      setScanned(false);
-      // setNic('');
-      // setName('');
-      // setEmail('');
-      // setFaculty('');
-      // setLevel('');
-    } else {
-      setError('Already Scanned');
-    }
-  }
+  // const setVote = async () => {
+  //   const res = await fetch(`${baseurl}/api/acceptv`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Accept: 'application/json',
+  //     },
+  //     body: JSON.stringify({ data: qrData }),
+  //   });
+  //   const resdata = await res.json();
+  //   console.log("qr", qrData);
+  //   console.log("resdata", resdata);
+  //   if (resdata[0]) {
+  //     setQrData('');
+  //     setScanned(false);
+  //     // setNic('');
+  //     // setName('');
+  //     // setEmail('');
+  //     // setFaculty('');
+  //     // setLevel('');
+  //   } else {
+  //     setError('Already Scanned');
+  //   }
+  // }
 
   return (
     <View style={styles.container}>
