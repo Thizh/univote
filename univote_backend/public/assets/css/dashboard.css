@@ -5,6 +5,39 @@ body {
     font-family: Arial, sans-serif;
 }
 
+button {
+    background-color: #ff3d01;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+button:hover {
+    background-color: #912200;
+}
+
+input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+}
+
+select {
+    width: 100%;
+}
+
+.custom-input:focus {
+    border-bottom: 2px solid #ff3d01;
+    outline: none;
+  }
+
+label {
+    margin-top: 10px;
+}
+
 #wrapper {
     display: flex;
     width: 100%;

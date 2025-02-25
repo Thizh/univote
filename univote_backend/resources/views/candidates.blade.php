@@ -1,10 +1,10 @@
 @extends('sidebar')
 
 @section('content')
-    <h1 style="padding: 5%;">Candidate Details</h1>
-    <div style="display: flex; flex-direction: row; gap: 2rem;">
+    <h1 style="padding: 3%;">Candidate Details</h1>
+    <div style="display: flex; flex-direction: row;">
         <!-- Candidate Creation Form -->
-        <div class="card1" style="flex: 1; padding-left: 5%">
+        <!-- <div class="card1" style="flex: 1; padding-left: 5%">
             <form action="/addusers" method="POST" name="userForm">
                 @csrf
                 <div class="text-field">
@@ -17,11 +17,11 @@
                 </div>
                 <button class="create-user-btn" type="submit">Add Candidate</button>
             </form>
-        </div>
+        </div> -->
 
         <!-- Candidate Table -->
         <div style="flex: 2;">
-            <table id="candidateTable" border="1" style="width: 65vw; border-collapse: collapse;">
+            <table id="candidateTable" border="1" style="width: 100%; border-collapse: collapse;">
                 <thead>
                     <tr>
                         <th>Ref</th>
