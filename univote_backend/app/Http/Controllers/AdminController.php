@@ -7,9 +7,10 @@ use App\Models\Admin;
 use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\Vote;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -107,11 +108,16 @@ class AdminController extends Controller
 
     public function acceptVote()
     {
+        $fiveMinutesAgo = Carbon::now()->subMinutes(5);
+
         $voteDetails = DB::table('votes')
             ->join('voters', 'votes.vot_id', '=', 'voters.id')
             ->where('votes.lastSeen', true)
+            ->where('votes.created_at', '>=', $fiveMinutesAgo)
             ->select('votes.id as vote_id', 'voters.nic', 'voters.name', 'voters.email', 'voters.reg_no', 'voters.faculty', 'voters.level')
             ->first();
+
+        DB::table('votes')->where('created_at', '<', $fiveMinutesAgo)->delete();
 
         return view('acceptvote', ['voter' => $voteDetails]);
     }
@@ -166,7 +172,6 @@ class AdminController extends Controller
 
     public function results()
     {
-        try {
             $vote = DB::table('votes')
                 ->join('candidates', 'votes.can_id', '=', 'candidates.id')
                 ->join('voters', 'candidates.user_id', '=', 'voters.id')
@@ -184,10 +189,7 @@ class AdminController extends Controller
                 ->orderByDesc('can_count')
                 ->first();
 
-            return view('results', ['stats' => $vote, 'lead_name' => $max_vote->can_name]);
-        } catch (Exception $e) {
-            return [false, 'error' => $e];
-        }
+            return view('results', ['stats' => $vote, 'lead_name' => $max_vote ? $max_vote->can_name : 'No votes yet']);
     }
 
     public function deleteCand($id)
@@ -248,26 +250,19 @@ class AdminController extends Controller
             ['isStarted' => !$getElection->isStarted]
         );
 
-        if ($election) {
-            $electionStarted = Session::get('election_started', false);
-            Session::put('election_started', !$electionStarted);
-        }
+        $electionStarted = $election->isStarted;
+
+        Session::put('election_started', $electionStarted);
 
         return response()->json([
-            'election_started' => !$electionStarted,
-            'message' => !$electionStarted ? 'Election started successfully' : 'Election stopped successfully',
+            'election_started' => $electionStarted,
+            'message' => $electionStarted ? 'Election started successfully' : 'Election stopped successfully',
         ]);
     }
 
     public function qrScanned(Request $req)
     {
         $data = $this->decryptData($req->input('data'));
-
-        // $voteDetails = DB::table('votes')
-        //     ->join('voters', 'votes.vot_id', '=', 'voters.id')
-        //     ->where('votes.id', $data)
-        //     ->select('voters.nic', 'voters.name', 'voters.email', 'voters.faculty', 'voters.level')
-        //     ->first();
 
         try {
             // event(new ScreenUpdated(['update_key' => 'accept-vote']));
@@ -276,7 +271,7 @@ class AdminController extends Controller
                 ->where('id', $data)
                 ->update(['lastSeen' => true]);
 
-            return response()->json([true]);
+            return response()->json([true, 'id' => $data]);
         } catch (Exception $e) {
             return response()->json(['status' => 'success', 'error' => $e]);
         }

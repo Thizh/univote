@@ -17,7 +17,7 @@ class VoterController extends Controller
             $vote->can_id = $req->input('candidate');
             $vote->save();
 
-            return [true];
+            return [true, 'voted' => $vote->id];
         } catch (Exception $e) {
             return [false, 'err' => $e];
         }

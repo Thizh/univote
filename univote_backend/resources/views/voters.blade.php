@@ -1,7 +1,7 @@
 @extends('sidebar')
 @section('content')
-<h1 style="padding: 5%;">Voter Details</h1>
-<div style="display: flex; flex-direction: row; gap: 2rem;">
+<h1 style="padding: 3%;">Voter Details</h1>
+<div style="display: flex; flex-direction: row;">
     <table id="votersTable" style="width: 85vw; border-collapse: collapse;">
         <thead>
             <tr>

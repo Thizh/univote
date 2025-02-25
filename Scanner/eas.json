@@ -14,6 +14,11 @@
         "buildType": "apk"
       }
     },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      }
+    },
     "production": {
       "autoIncrement": true
     }

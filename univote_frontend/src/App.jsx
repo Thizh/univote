@@ -26,6 +26,7 @@ function App() {
   const isStarted = async () => {
     let res = await fetch(`${import.meta.env.VITE_BASE_URL}/api/is-started`);
     const data = await res.json();
+    console.log('isStarted', data);
     dispatch(toggleElectionStatus(data[0]));
   }
 

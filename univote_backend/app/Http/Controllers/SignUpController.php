@@ -140,13 +140,13 @@ class SignUpController extends Controller
         // $election = session()->has('election_started') && session('election_started') === true;
         $election = Election::where('id', 1)->first();
 
-        if(!$election->isStarted) {
-            $election = false;
-        } else {
-            $election = true;
-        }
+        // if(!$election->isStarted) {
+        //     $election = false;
+        // } else {
+        //     $election = $election->isStarted;
+        // }
 
-        return [$election];
+        return [$election->isStarted];
     }
 
     public function saveUserData(Request $req) {
