@@ -86,7 +86,7 @@ class AdminController extends Controller
     {
         $candidates = DB::table('candidates')
             ->join('voters', 'voters.id', '=', 'candidates.user_id')
-            ->select('voters.id', 'voters.name', 'voters.nic', 'voters.email', 'voters.faculty', 'voters.reg_no', 'voters.level', 'candidates.eligible')
+            ->select('candidates.id', 'voters.name', 'voters.nic', 'voters.email', 'voters.faculty', 'voters.reg_no', 'voters.level', 'candidates.eligible')
             ->get();
 
         return view('candidates', ['candidates' => $candidates]);
