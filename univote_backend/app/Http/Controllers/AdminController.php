@@ -113,11 +113,11 @@ class AdminController extends Controller
         $voteDetails = DB::table('votes')
             ->join('voters', 'votes.vot_id', '=', 'voters.id')
             ->where('votes.lastSeen', true)
-            ->where('votes.created_at', '>=', $fiveMinutesAgo)
+            ->where('votes.created_at', '<=', $fiveMinutesAgo)
             ->select('votes.id as vote_id', 'voters.nic', 'voters.name', 'voters.email', 'voters.reg_no', 'voters.faculty', 'voters.level')
             ->first();
 
-        DB::table('votes')->where('created_at', '<', $fiveMinutesAgo)->delete();
+        DB::table('votes')->where('created_at', '>', $fiveMinutesAgo)->delete();
 
         return view('acceptvote', ['voter' => $voteDetails]);
     }
