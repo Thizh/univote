@@ -18,6 +18,28 @@ use phpseclib3\Crypt\AES;
 
 class AdminController extends Controller
 {
+
+    public function updateVoteStat(Request $req)
+    {
+        $vote_id = $req->vote_id;
+        $action = $req->action;
+    
+        $vote = Vote::find($vote_id);
+        if (!$vote) {
+            return response()->json(['message' => 'Vote not found'], 404);
+        }
+
+        if ($action === 'accepted') {
+            $vote->isAccepted = true;
+        } else {
+            $vote->rejected = true;
+        }
+    
+        $vote->save();
+    
+        return response()->json(['message' => "Vote has been $action successfully"]);
+    }
+
     public function handleLogin(Request $request)
     {
         // Default credentials
@@ -57,18 +79,20 @@ class AdminController extends Controller
     }
 
     public function dashboard()
-    {  
+    {
         $votersCount = DB::table('voters')->count();
 
         $candidatesCount = DB::table('candidates')->count();
 
         $eligibleCandidatesCount = DB::table('candidates')->where('eligible', 1)->count();
-        
+
+        $election = DB::table('elections')->first();
+
 
         if (!Session::get('admin_logged_in')) {
             return redirect()->route('adminlogin')->with('error', 'Please log in first.');
         }
-        return view('dashboard', ['voters' => $votersCount, 'candidates' => $candidatesCount, 'eligibleCandidates' => $eligibleCandidatesCount]);
+        return view('dashboard', ['voters' => $votersCount, 'candidates' => $candidatesCount, 'eligibleCandidates' => $eligibleCandidatesCount, 'election' => $election]);
     }
 
     public function profile()
@@ -112,12 +136,21 @@ class AdminController extends Controller
 
         $voteDetails = DB::table('votes')
             ->join('voters', 'votes.vot_id', '=', 'voters.id')
-            ->where('votes.lastSeen', true)
-            ->where('votes.created_at', '<=', $fiveMinutesAgo)
+            ->where('votes.isAccepted', false)
+            ->where('votes.rejected', false)
+            ->orderBy('votes.created_at', 'desc')
             ->select('votes.id as vote_id', 'voters.nic', 'voters.name', 'voters.email', 'voters.reg_no', 'voters.faculty', 'voters.level')
             ->first();
 
-        DB::table('votes')->where('created_at', '>', $fiveMinutesAgo)->delete();
+
+        // DB::table('votes')->where('created_at', '<', $fiveMinutesAgo)->delete();
+
+        // dd($voteDetails);
+
+        // $check = DB::table('votes')
+        //     ->count();
+
+        // dd($check);
 
         return view('acceptvote', ['voter' => $voteDetails]);
     }
@@ -127,26 +160,26 @@ class AdminController extends Controller
     {
         // Decode the encrypted data (JSON object from React)
         $data = json_decode($encryptedData, true);
-    
+
         if (!isset($data['ciphertext']) || !isset($data['iv'])) {
             return ['Invalid encrypted data format.'];
         }
-    
+
         $ciphertext = base64_decode($data['ciphertext']); // Decode ciphertext
         $iv = base64_decode($data['iv']); // Decode IV
         $secretKey = env('SECRET_KEY'); // Retrieve secret key from .env
-    
+
         if (!$secretKey) {
             return ['Secret key not set in environment variables.'];
         }
-    
+
         // Initialize AES for decryption
         $aes = new AES('cbc'); // Use CBC mode
         $aes->setKey($secretKey);
         $aes->setIV($iv); // Set the IV
-    
+
         $decrypted = $aes->decrypt($ciphertext);
-    
+
         return $decrypted;
     }
 
@@ -172,24 +205,24 @@ class AdminController extends Controller
 
     public function results()
     {
-            $vote = DB::table('votes')
-                ->join('candidates', 'votes.can_id', '=', 'candidates.id')
-                ->join('voters', 'candidates.user_id', '=', 'voters.id')
-                ->select(DB::raw('COUNT(votes.can_id) as can_count'), 'voters.name as can_name')
-                ->groupBy('candidates.id', 'voters.name')
-                ->where('isAccepted', '=', true)
-                ->get();
+        $vote = DB::table('votes')
+            ->join('candidates', 'votes.can_id', '=', 'candidates.id')
+            ->join('voters', 'candidates.user_id', '=', 'voters.id')
+            ->select(DB::raw('COUNT(votes.can_id) as can_count'), 'voters.name as can_name')
+            ->groupBy('candidates.id', 'voters.name')
+            ->where('isAccepted', '=', true)
+            ->get();
 
-            $max_vote = DB::table('votes')
-                ->join('candidates', 'votes.can_id', '=', 'candidates.id')
-                ->join('voters', 'candidates.user_id', '=', 'voters.id')
-                ->select(DB::raw('COUNT(votes.can_id) as can_count'), 'voters.name as can_name')
-                ->groupBy('candidates.id', 'voters.name')
-                ->where('isAccepted', '=', true)
-                ->orderByDesc('can_count')
-                ->first();
+        $max_vote = DB::table('votes')
+            ->join('candidates', 'votes.can_id', '=', 'candidates.id')
+            ->join('voters', 'candidates.user_id', '=', 'voters.id')
+            ->select(DB::raw('COUNT(votes.can_id) as can_count'), 'voters.name as can_name')
+            ->groupBy('candidates.id', 'voters.name')
+            ->where('isAccepted', '=', true)
+            ->orderByDesc('can_count')
+            ->first();
 
-            return view('results', ['stats' => $vote, 'lead_name' => $max_vote ? $max_vote->can_name : 'No votes yet']);
+        return view('results', ['stats' => $vote, 'lead_name' => $max_vote ? $max_vote->can_name : 'No votes yet']);
     }
 
     public function deleteCand($id)
@@ -328,10 +361,12 @@ class AdminController extends Controller
         }
     }
 
-    public function createStaff() {
+    public function createStaff()
+    {
 
         $users = Admin::all();
 
         return view('createstaff', ['users' => $users]);
     }
+
 }

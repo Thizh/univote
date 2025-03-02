@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('vot_id');
             $table->string('can_id');
             $table->boolean('isAccepted')->default(false);
+            // $table->boolean('rejected')->default(false);
             $table->boolean('lastSeen')->default(false);
             $table->timestamps();
         });

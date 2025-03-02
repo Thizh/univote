@@ -35,6 +35,8 @@ Route::middleware([AuthGuard::class])->group(function () {
     Route::post('/candidate-eligible_checked', [CandidateController::class, 'eligiblityChecked']);
     Route::post('/bylawupload', [AdminController::class, 'byLawPdf']);
 
+    Route::post('/votestat', [AdminController::class, 'updateVoteStat']);
+
     Route::middleware([StaffCheck::class])->group(function () {
         Route::get('/createstaff', [AdminController::class, 'createStaff'])->name('admin.createstaff');
         Route::post('/toggle-election', [AdminController::class, 'startElection']);
