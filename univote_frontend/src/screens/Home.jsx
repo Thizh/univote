@@ -83,12 +83,13 @@ function Home() {
             <div className="election-card">
             <p style={{color: '#000'}}>News Feed</p>
             </div>
-            {(
+            {election ? (
               <div className="election-card" style={{backgroundColor: '#B8DFAE'}} onClick={() => navigation('/vote')}>
                 <p style={{color: '#000'}}>Vote</p>
               </div>
+            ) : (
+              <div></div>
             )}
-
         </div>
         </div>
         {firstTime && (
