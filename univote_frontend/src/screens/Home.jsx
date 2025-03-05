@@ -78,18 +78,18 @@ function Home() {
     <div className="Home">
       <Header />
       <div className="elections">
-        <img src="university-placeholder.jpg" alt="University" className="university-image" />
         <h2>Available Elections</h2>
         <div className="election-cards">
             <div className="election-card">
             <p style={{color: '#000'}}>News Feed</p>
             </div>
-            {election && (
+            {election ? (
               <div className="election-card" style={{backgroundColor: '#B8DFAE'}} onClick={() => navigation('/vote')}>
                 <p style={{color: '#000'}}>Vote</p>
               </div>
+            ) : (
+              <div></div>
             )}
-
         </div>
         </div>
         {firstTime && (

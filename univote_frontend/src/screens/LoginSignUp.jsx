@@ -20,11 +20,6 @@ function LoginSignUp() {
   const [pwSubmitted, setPwSubmitted] = useState(false);
   const [otp, setOtp] = useState(null);
 
-  useEffect(() => {
-    console.log(otp);
-
-  }, [otp]);
-
   const fetchStu = async (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -37,11 +32,9 @@ function LoginSignUp() {
       body: JSON.stringify({ nic }),
     });
     const data = await res.json();
-    console.log(nic);
     if (data[0]) {
       setName(data.name);
       setEmail(data.email);
-      console.log(data.email);
     } else {
       setError('You are not an OUSL student');
     }
@@ -85,7 +78,6 @@ function LoginSignUp() {
       body: JSON.stringify({ nic, otp }),
     });
     const otp_data = await check_otp.json();
-    console.log(otp_data);
     if (otp_data[0]) {
       Cookies.set("isLoggedIn", "true", { expires: 7, path: "/" });
       Cookies.set("user_id", JSON.stringify(otp_data.voter), { expires: 7, path: "/" });

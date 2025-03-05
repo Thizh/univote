@@ -1,27 +1,35 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../css/styles.css';
-import DP from "../assets/imgs/dp.png";
+import { User, Home, BarChart, Info, UserPlus } from 'lucide-react';
 import { useSelector } from 'react-redux';
 
 const Header = () => {
-
   const isElection = useSelector((state) => state.user.isElectionStarted);
 
   return (
     <header className="header">
+      <h2>UNIVOTE</h2>
       <div className="header-container">
         <nav>
-          <a href="/">Home</a>
+          <Link to="/" className="nav-item">
+            <Home size={20} /> <span><h3>Home</h3></span>
+          </Link>
           {!isElection && (
-            <a href="/candidateapply">Apply Candidate</a>
+            <Link to="/candidateapply" className="nav-item">
+              <UserPlus size={20} /> <span><h3>Apply Candidate</h3></span>
+            </Link>
           )}
-          <a href="/statistics">Statistics</a>
-          <a href="#">About us</a>
-          <a href="/profile">
-          <img src={DP} alt="User Icon" className="user-icon" style={{padding: '5px'}} />
-          </a>
+          <Link to="/statistics" className="nav-item">
+            <BarChart size={20} /> <span><h3>Statistics</h3></span>
+          </Link>
+          <Link to="/about" className="nav-item">
+            <Info size={20} /> <span><h3>About Us</h3></span>
+          </Link>
+          <Link to="/profile" className="user-icon">
+            <User size={20} />
+          </Link>
         </nav>
-        
       </div>
     </header>
   );
