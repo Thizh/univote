@@ -30,6 +30,7 @@ class AdminController extends Controller
         }
 
         if ($action === 'accepted') {
+            // $vote->lastSeen = false; commmented this line because we can track already scanned QRs
             $vote->isAccepted = true;
         } else {
             $vote->rejected = true;
@@ -137,6 +138,7 @@ class AdminController extends Controller
         $voteDetails = DB::table('votes')
             ->join('voters', 'votes.vot_id', '=', 'voters.id')
             ->where('votes.isAccepted', false)
+            ->where('votes.lastSeen', true)
             ->where('votes.rejected', false)
             ->orderBy('votes.created_at', 'desc')
             ->select('votes.id as vote_id', 'voters.nic', 'voters.name', 'voters.email', 'voters.reg_no', 'voters.faculty', 'voters.level')
