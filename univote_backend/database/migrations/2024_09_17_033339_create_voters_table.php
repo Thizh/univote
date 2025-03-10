@@ -23,8 +23,8 @@ return new class extends Migration
             $table->boolean('emailVerified')->default(false);
             $table->boolean('isFirstTime')->default(true);
             $table->string('otp');
-            $table->string('academics_ref')->nullable();
-            $table->boolean('eligible')->default(false);
+            // $table->string('academics_ref')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

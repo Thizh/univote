@@ -42,6 +42,7 @@ Route::middleware([AuthGuard::class])->group(function () {
         Route::post('/toggle-election', [AdminController::class, 'startElection']);
         Route::post('/addstaff', [AdminController::class, 'addUser'])->name('admin.addstaff');
         Route::delete('/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('user.delete');
+        Route::post('/voters/toggle-status', [AdminController::class, 'toggleStatusVoter'])->name('voters.toggleStatus');
     });
 
 });
