@@ -37,9 +37,9 @@
     <div style="border: 1px solid #000; margin: 5% 0; padding: 5%; width: 30%">
         <span style="font-weight: 700">"By Law" Document</span>
         <span>Current PDF</span>
-        <a href="/storage/pdfs/by_law.pdf" target="_blank">
+        <a href="/storage/pdfs/Student_Union_By_Law.pdf" target="_blank">
             <div style="display: flex; flex-direction: row; justify-content:space-between; border: 1px solid #333; margin-bottom: 30px;" onclick="">
-                by_law.pdf
+                Student Union By Law.pdf
                 <img src="/assets/image/pdf_icon.png" style="height: 50px; width: 50px;" />
             </div>
         </a>
@@ -107,6 +107,7 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                window.location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);

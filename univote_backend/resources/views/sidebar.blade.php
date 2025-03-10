@@ -81,13 +81,13 @@
                     <div class="navbar-collapse">
                         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                    Profile
+                                <a href="{{ route('admin.logout') }}">
+                                    Logout
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-end">
+                                <!-- <div class="dropdown-menu dropdown-menu-end">
                                     <a class="dropdown-item" href="{{ route('admin.profile') }}">Profile Settings</a>
                                     <a class="dropdown-item" href="{{ route('admin.logout') }}">Logout</a>
-                                </div>
+                                </div> -->
                             </li>
                         </ul>
                     </div>
