@@ -2,6 +2,7 @@
   "name": "scanner",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
@@ -11,15 +12,17 @@
   "dependencies": {
     "@react-navigation/native": "^7.0.4",
     "@react-navigation/stack": "^7.0.6",
-    "eas-cli": "^13.3.0",
-    "expo": "~52.0.7",
-    "expo-camera": "^16.0.5",
-    "expo-status-bar": "~2.0.0",
-    "expo-system-ui": "^4.0.3",
+    "eas-cli": "^15.0.14",
+    "expo": "^52.0.19",
+    "expo-build-properties": "~0.13.2",
+    "expo-camera": "16.0.17",
+    "expo-dev-client": "~5.0.12",
+    "expo-status-bar": "2.0.1",
+    "expo-system-ui": "4.0.8",
+    "kotlin": "^1.9.24",
     "react": "18.3.1",
-    "react-native": "0.76.2",
-    "react-native-vision-camera": "^4.6.1",
-    "expo-dev-client": "~5.0.12"
+    "react-native": "0.76.7",
+    "react-native-vision-camera": "^4.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

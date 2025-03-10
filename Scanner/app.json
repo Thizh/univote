@@ -38,6 +38,14 @@
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "kotlinVersion": "1.19.24"
+          }
+        }
       ]
     ],
     "extra": {
