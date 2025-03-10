@@ -122,7 +122,8 @@ class SignUpController extends Controller
         $user = Voter::where('nic', $req->input('nic'))->first();
     
         if (Hash::check($req->input('reg_no'), $user->password)) {
-            return [true, 'message' => 'Password matches', 'user' => $user->id];
+            $token = $user->createToken('api-token')->plainTextToken;
+            return [true, 'message' => 'Password matches', 'user' => $user->id, 'token' => $token];
         } else {
             return [false, 'message' => 'Password does not match'];
         }
