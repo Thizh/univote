@@ -12,6 +12,7 @@
                 <th style="border: 1px solid #ddd; padding: 8px;">Reg No.</th>
                 <th style="border: 1px solid #ddd; padding: 8px;">Faculty</th>
                 <th style="border: 1px solid #ddd; padding: 8px;">Level</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Status</th>
                 <!-- <th style="border: 1px solid #ddd; padding: 8px;">Eligible</th> -->
                 <!-- <th style="border: 1px solid #ddd; padding: 8px;">Action</th> -->
             </tr>
@@ -26,9 +27,19 @@
                 <td style="border: 1px solid #ddd; padding: 8px;">{{ $voter->reg_no }}</td>
                 <td style="border: 1px solid #ddd; padding: 8px;">{{ $voter->faculty }}</td>
                 <td style="border: 1px solid #ddd; padding: 8px;">{{ $voter->level }}</td>
-                <!-- <td style="border: 1px solid #ddd; padding: 8px;">
-                    <input type="checkbox" name="eligible" style="height: 15px; width: 15px;" data-id="{{ $voter->id }}" {{ $voter->eligible ? 'checked' : '' }} class="eligible-checkbox"/>
-                </td> -->
+                <td>
+                    <input type="checkbox"
+                        class="toggle-status"
+                        data-id="{{ $voter->id }}"
+                        {{ $voter->status == 1 ? 'checked' : '' }}
+                        data-toggle="toggle"
+                        data-onstyle="success"
+                        data-onlabel="Active"
+                        data-offlabel="Inactive"
+                        data-size="sm"
+                        @if (session('staff_logged_in')) disabled @endif>
+
+                </td>
                 <!-- <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">
                     <form action="{{ route('candidates.delete', $voter->id) }}" method="POST" style="display: inline;">
                         @csrf
@@ -64,27 +75,49 @@
     };
 
     $(document).on('change', '.eligible-checkbox', function() {
-    const checkbox = $(this);
+        const checkbox = $(this);
 
-    const voterId = checkbox.data('id');
-    const isChecked = checkbox.is(':checked') ? 1 : 0;
+        const voterId = checkbox.data('id');
+        const isChecked = checkbox.is(':checked') ? 1 : 0;
 
-    $.ajax({
-        url: '/voter-eligible_checked',
-        method: 'POST',
-        data: {
-            voter_id: voterId,
-            eligible_checked: isChecked,
-            _token: '{{ csrf_token() }}'
-        },
-        success: function(response) {
-            alert(response.message);
-        },
-        error: function(xhr) {
-            alert('Failed to update status.');
-        }
+        $.ajax({
+            url: '/voter-eligible_checked',
+            method: 'POST',
+            data: {
+                voter_id: voterId,
+                eligible_checked: isChecked,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                alert(response.message);
+            },
+            error: function(xhr) {
+                alert('Failed to update status.');
+            }
+        });
     });
-});
 
+    $(document).ready(function() {
+        $('.toggle-status').change(function() {
+            var status = $(this).prop('checked') ? 1 : 0;
+            var memberId = $(this).data('id');
+
+            $.ajax({
+                url: "{{ route('voters.toggleStatus') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: memberId,
+                    status: status
+                },
+                success: function(response) {
+                    console.log(response.message);
+                },
+                error: function(xhr) {
+                    alert("Error updating status.");
+                }
+            });
+        });
+    });
 </script>
 @endsection

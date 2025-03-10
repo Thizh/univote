@@ -7,6 +7,7 @@ use App\Models\Admin;
 use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\Vote;
+use App\Models\Voter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -23,7 +24,7 @@ class AdminController extends Controller
     {
         $vote_id = $req->vote_id;
         $action = $req->action;
-    
+
         $vote = Vote::find($vote_id);
         if (!$vote) {
             return response()->json(['message' => 'Vote not found'], 404);
@@ -35,9 +36,9 @@ class AdminController extends Controller
         } else {
             $vote->rejected = true;
         }
-    
+
         $vote->save();
-    
+
         return response()->json(['message' => "Vote has been $action successfully"]);
     }
 
@@ -123,7 +124,7 @@ class AdminController extends Controller
     public function voters()
     {
         $voters = DB::table('voters')
-            ->select('id', 'name', 'nic', 'email', 'reg_no', 'faculty', 'level', 'eligible')
+            ->select('id', 'name', 'nic', 'email', 'reg_no', 'faculty', 'level', 'status')
             ->get();
 
         return view('voters', ['voters' => $voters]);
@@ -344,22 +345,22 @@ class AdminController extends Controller
             'fileName' => 'required|string',
             'fileData' => 'required|string',
         ]);
-    
+
         try {
             $fileData = $req->input('fileData');
             $decodedFile = base64_decode(preg_replace('#^data:application/pdf;base64,#', '', $fileData));
-    
+
             $fileName = "Student_Union_By_Law.pdf";
             $filePath = 'pdfs/' . $fileName;
-    
+
             // Check if the file exists and delete it
             if (Storage::exists($filePath)) {
                 Storage::delete($filePath);
             }
-    
+
             // Store the new file
             Storage::put($filePath, $decodedFile);
-    
+
             return response()->json([
                 'message' => 'File uploaded successfully!',
                 'path' => $filePath,
@@ -379,4 +380,15 @@ class AdminController extends Controller
         return view('createstaff', ['users' => $users]);
     }
 
+
+    public function toggleStatusVoter(Request $request)
+    {
+        $voter = Voter::findOrFail($request->id);
+        $voter->status = $request->status;
+        $voter->save();
+
+        Vote::where('vot_id', $voter->id)->update(['rejected' => !$request->status]);
+
+        return response()->json(['message' => 'Status updated successfully!']);
+    }
 }
