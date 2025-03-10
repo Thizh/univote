@@ -10,7 +10,7 @@ class VerifyFrontendOrigin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $allowedOrigins = ['https://nexelaris.com'];
+        $allowedOrigins = ['https://univote.nexelaris.com'];
 
         if (!in_array($request->header('Origin'), $allowedOrigins)) {
             return response()->json(['message' => 'Unauthorized request'], 403);
