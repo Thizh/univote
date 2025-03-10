@@ -89,6 +89,9 @@ class AdminController extends Controller
 
         $election = DB::table('elections')->first();
 
+        if ($election->isStarted) {
+            Session::put('election_started', true);
+        }
 
         if (!Session::get('admin_logged_in')) {
             return redirect()->route('adminlogin')->with('error', 'Please log in first.');
@@ -269,7 +272,7 @@ class AdminController extends Controller
 
         $user = new Admin();
         $user->username = $req->input('username');
-        $user->password = $req->input('password');
+        $user->password = Hash::make($req->input('password'));
         $user->user_type = $req->input('utype');
         $user->save();
 
@@ -337,29 +340,34 @@ class AdminController extends Controller
 
     public function byLawPdf(Request $req)
     {
-
         $req->validate([
             'fileName' => 'required|string',
             'fileData' => 'required|string',
         ]);
-
+    
         try {
             $fileData = $req->input('fileData');
             $decodedFile = base64_decode(preg_replace('#^data:application/pdf;base64,#', '', $fileData));
-
-            $fileName = "by_law.pdf";
+    
+            $fileName = "Student_Union_By_Law.pdf";
             $filePath = 'pdfs/' . $fileName;
-
+    
+            // Check if the file exists and delete it
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+    
+            // Store the new file
             Storage::put($filePath, $decodedFile);
-
+    
             return response()->json([
                 'message' => 'File uploaded successfully!',
                 'path' => $filePath,
             ]);
         } catch (Exception $e) {
             return response()->json([
-                'error' => $e
-            ]);
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 
