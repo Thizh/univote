@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\VerifyFrontendOrigin;
+// use App\Http\Middleware\VerifyFrontendOrigin;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -20,7 +20,14 @@ return Application::configure(basePath: dirname(__DIR__))
         // $middleware->append(EnsureFrontendRequestsAreStateful::class);
         // $middleware->append(ThrottleRequests::class . ':api');
         // $middleware->append(SubstituteBindings::class);
-        $middleware->append(VerifyFrontendOrigin::class);
+        // $middleware->append(VerifyFrontendOrigin::class);
+        // $middleware->append(VerifyFrontendOrigin::class);
+        // $middleware->alias([
+        //     'verify.origin' => \App\Http\Middleware\VerifyFrontendOrigin::class,
+        // ]);
+        $middleware->alias([
+            'open.cors' => \App\Http\Middleware\OpenCors::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
