@@ -101,6 +101,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('my-release-key.jks')
+            storePassword '1234abcd'
+            keyAlias 'my-key-alias'
+            keyPassword '1234abcd'
+        }
     }
     buildTypes {
         debug {
@@ -173,4 +179,6 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    implementation "androidx.compose.compiler:compiler:1.5.14"
 }
