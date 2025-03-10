@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://nexelaris.com'],
+    'allowed_origins' => ['https://univote.nexelaris.com'],
 
     'allowed_origins_patterns' => [],
 
