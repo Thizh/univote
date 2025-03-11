@@ -24,6 +24,12 @@ h1 {
 	margin: 0;
 }
 
+.signin-h1 {
+    color: #333;
+    font-size: 25px;
+    margin: 10%;
+}
+
 h2 {
 	text-align: center;
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vote;
+use App\Models\Voter;
 use Exception;
 use Illuminate\Http\Request;
 use DB;
@@ -56,14 +57,17 @@ class VoterController extends Controller
     }
 
     public function isVoted($id) {
-        $voter = DB::table('votes')->where('vot_id', $id)->exists();
+        $voter = Voter::find($id);
+        $voterVote = DB::table('votes')->where('vot_id', $id)->exists();
 
-        if (!$voter) {
-            return [false];
+        if ($voter->status) {
+            if (!$voterVote) {
+                return [false];
+            }
+            return [true];
         }
         
-        return [true];
-
+        return ['disabled'];
     }
 
 
@@ -89,8 +93,12 @@ class VoterController extends Controller
             $fileName = $uid . ".svg";
             $filePath = 'qr_codes/' . $fileName;
 
-            Storage::put($filePath, $fileData);
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
 
+            Storage::put($filePath, $fileData);
+            
             return [true, "file" => $fileName];
 
         } catch (Exception $e) {

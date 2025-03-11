@@ -26,7 +26,7 @@
         @if(session('error'))
             <div class="alert" style="color: red">{{ session('error') }}</div>
         @endif
-        <button type="submit" class="btn btn-primary w-100">Login</button>
+        <button type="submit" class="btn btn-primary w-100" style="background-color: #ff4d00; margin-top: 5%">Login</button>
     </form>
 </div>
 </body>

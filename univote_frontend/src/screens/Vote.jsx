@@ -6,6 +6,7 @@ import forge from 'node-forge';
 import '../css/Vote.css';
 import Cookies from 'js-cookie';
 import CryptoJS from 'crypto-js';
+import { FourSquare } from 'react-loading-indicators';  
 import { toPng } from "html-to-image";
 
 function Vote() {
@@ -13,6 +14,7 @@ function Vote() {
   const [qrData, setQrData] = useState(null);
   const [qrClicked, setQrClicked] = useState(false);
   const [candidates, setCandidates] = useState([]);
+  const [disabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const baseurl = import.meta.env.VITE_BASE_URL;
   const user_id = Cookies.get('user_id');
@@ -50,6 +52,10 @@ function Vote() {
         getCandidates();
         setVoted(false);
       } else {
+        if (data[0] == 'disabled') {
+          setVoted(true);
+          setIsDisabled(true);
+        }
         setVoted(true);
       }
     } catch (error) {
@@ -69,7 +75,6 @@ function Vote() {
 
     event.preventDefault();
     const iv = CryptoJS.lib.WordArray.random(16);
-    setIsLoading(true);
     let res = await fetch(`${baseurl}/api/placevote`, {
       method: 'POST',
       headers: {
@@ -100,7 +105,6 @@ function Vote() {
     } else {
       console.log('error occured');
     }
-    setIsLoading(false);
   };
 
   const sendQRPNG = async () => {
@@ -136,27 +140,31 @@ function Vote() {
   return (
     <div className={`main_container`}>
       <Header />
-      {voted == false ? (
-        <>
-          <h2 className="heading">Select Candidate</h2>
-          <div className="candidates">
-            {candidates.map((candidate) => (
-              <div
-                key={candidate.canid}
-                className={`election-card ${selectedCandidate == candidate.canid ? "selected" : ""}`}
-                onClick={() => handleCandidateClick(candidate)}
-              >
-                <div className="icon-placeholder"></div>
-                <p>{candidate.candidate_name}</p>
+      {isLoading ? (
+        <FourSquare color="#ff3d00" size="small" text="" textColor="" />
+      ) : (
+        <div>
+          {voted == false ? (
+            <>
+              <h2 className="heading">Select Candidate</h2>
+              <div className="candidates">
+                {candidates.map((candidate) => (
+                  <div
+                    key={candidate.canid}
+                    className={`election-card ${selectedCandidate == candidate.canid ? "selected" : ""}`}
+                    onClick={() => handleCandidateClick(candidate)}
+                  >
+                    <div className="icon-placeholder"></div>
+                    <p>{candidate.candidate_name}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="buttons-container">
-            <button onClick={handleVoteClick} disabled={!selectedCandidate} className="vote-button">
-              Vote
-            </button>
-          </div>
-          {/* {qrData && (
+              <div className="buttons-container">
+                <button onClick={handleVoteClick} disabled={!selectedCandidate} className="vote-button">
+                  Vote
+                </button>
+              </div>
+              {/* {qrData && (
             <div className="qr-container" onClick={() => setQrData(false)} >
                 <QRCode ref={qrCodeRef}  value={qrData} size={400} />
               <div style={{ backgroundColor: 'green', padding: 5, width: 300, alignItems: 'center', justifyContent: 'center', display: 'flex', color: '#fff', marginTop: '5%', borderRadius: 55, cursor: 'pointer' }}>
@@ -164,20 +172,30 @@ function Vote() {
               </div>
             </div>
           )} */}
-        </>
-      ) : (
-        <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-          <div style={{fontSize: 18, fontWeight: 700, margin: '2%'}}>Your Vote is Recorded <br /> Here is your QR Code</div>
-          {qrData ? (
-            <div ref={qrCodeRef}>
-              <QRCode value={qrData} size={300} />
-            </div>
+            </>
           ) : (
-            <div style={{ width: '20%', height: '20%' }}>
-            <img src={`${baseurl}/storage/qr_codes/${user_id}.svg`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-            </div>
+            <>
+              {disabled ? (
+                <div style={{ width: '100%', height: '100%' }}>
+                  <div style={{ textAlign: 'center', fontSize: 35, fontWeight: 600 }}>Your vote is disabled by admin.</div>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                  <div style={{ fontSize: 18, fontWeight: 700, margin: '2%' }}>Your Vote is Recorded <br /> Here is your QR Code</div>
+                  {qrData ? (
+                    <div ref={qrCodeRef}>
+                      <QRCode value={qrData} size={300} />
+                    </div>
+                  ) : (
+                    <div style={{ width: '20%', height: '20%' }}>
+                      <img src={`${baseurl}/storage/qr_codes/${user_id}.svg`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                    </div>
+                  )}
+                  <a href={`${baseurl}/storage/qr_codes/${user_id}.svg`} download="QR_code.svg">Download</a>
+                </div>
+              )}
+            </>
           )}
-          <a href={`${baseurl}/storage/qr_codes/${user_id}.svg`} download="QR_code.svg">Download</a>
         </div>
       )}
       <Footer />

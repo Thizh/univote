@@ -76,8 +76,8 @@ function CandidateApply() {
       <h2>Candidate Application</h2>
 
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <a href={`${baseurl}/storage/pdfs/by_law.pdf`} target="_blank" rel="noopener noreferrer">
-          by_law.pdf
+        <a href={`${baseurl}/storage/pdfs/Student_Union_By_Law.pdf`} target="_blank" rel="noopener noreferrer">
+          Student Union By Law.pdf
         </a>
       </div>
       
