@@ -386,9 +386,13 @@ class AdminController extends Controller
         $voter = Voter::findOrFail($request->id);
         $voter->status = $request->status;
         $voter->save();
-
-        Vote::where('vot_id', $voter->id)->update(['rejected' => !$request->status]);
-
+    
+        Vote::where('vot_id', $voter->id)->update([
+            'rejected' => !$request->status,
+            'isAccepted' => $request->status
+        ]);
+    
         return response()->json(['message' => 'Status updated successfully!']);
     }
+    
 }

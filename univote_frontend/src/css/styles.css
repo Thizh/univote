@@ -193,11 +193,49 @@ nav a:hover {
 .modal-content {
     background: #fff;
     color: #000;
-    padding: 15px;
+    padding: 25px;
     width: 400px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
+}
+
+.modal-content form{
+    padding: 25px 0 0 0 ;
+}
+
+.modal-content form select {
+    background-color: #eee;
+    color: #000;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 100%;
+}
+
+.modal-next-btn {
+    background-color: #ff4d00;
+    padding: 3%;
+    margin: 9% 0;
+    width: 100%;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.modal-next-btn:hover {
+    background-color: #d84100;
+    cursor: pointer;
+
+}
+
+.modal-back-btn {
+    background-color: #ffe4d8;
+    padding: 3%;
+    margin: 9% 0;
+    width: 100%;
+    border-radius: 5px;
+    color: #ff4d00;
+    cursor: pointer;
 }
 
 /* Responsive Fixes */
