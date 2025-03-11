@@ -49,15 +49,17 @@ class AdminController extends Controller
         // $defaultPassword = 'password123';
         $user = Admin::where('username', $request->input('username'))->first();
 
-        if (Hash::check($request->input('password'), $user->password)) {
-            switch ($user->user_type) {
-                case 'admin':
-                    Session::put('admin_logged_in', true);
-                    return redirect('/dashboard');
-                case 'staff':
-                    Session::put('admin_logged_in', true);
-                    Session::put('staff_logged_in', true);
-                    return redirect('/dashboard');
+        if ($user) {
+            if (Hash::check($request->input('password'), $user->password)) {
+                switch ($user->user_type) {
+                    case 'admin':
+                        Session::put('admin_logged_in', true);
+                        return redirect('/dashboard');
+                    case 'staff':
+                        Session::put('admin_logged_in', true);
+                        Session::put('staff_logged_in', true);
+                        return redirect('/dashboard');
+                }
             }
         }
 
@@ -386,13 +388,12 @@ class AdminController extends Controller
         $voter = Voter::findOrFail($request->id);
         $voter->status = $request->status;
         $voter->save();
-    
+
         Vote::where('vot_id', $voter->id)->update([
             'rejected' => !$request->status,
             'isAccepted' => $request->status
         ]);
-    
+
         return response()->json(['message' => 'Status updated successfully!']);
     }
-    
 }
